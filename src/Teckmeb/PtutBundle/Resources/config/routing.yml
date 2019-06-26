@@ -1,0 +1,47 @@
+teckmeb_ptut_homepage:
+    path:     /Ptut
+    defaults: { _controller: TeckmebPtutBundle:Ptut:home }
+
+teckmeb_ptut_create:
+    path:     /Ptut/create
+    defaults: { _controller: TeckmebPtutBundle:Ptut:create }
+
+teckmeb_ptut_modify:
+    path:    /Ptut/modify/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:modify }
+
+teckmeb_ptut_delete:
+    path:    /Ptut/delete/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:delete }
+    requirements:
+        id: \d+
+
+teckmeb_ptut_validate:
+    path:    /Ptut/validate/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:valide }
+    requirements:
+        id: \d+
+
+teckmeb_ptut_view:
+    path:    /Ptut/view/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:view }
+    requirements:
+        id: \d+
+
+teckmeb_ptut_valide_app:
+    path:    /Ptut/valide/app/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:valideApp }
+    requirements:
+        id: \d+
+
+teckmeb_ptut_delete_app:
+    path:    /Ptut/delete/app/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:deleteApp }
+    requirements:
+        id: \d+
+
+teckmeb_ptut_comment_app:
+    path:    /Ptut/add/comment/{id}
+    defaults: { _controller: TeckmebPtutBundle:Ptut:addComment }
+    requirements:
+        id: \d+

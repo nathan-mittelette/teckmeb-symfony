@@ -1,0 +1,13 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% block title %}
+Identification
+{% endblock %}
+{% block fos_user_content %}
+    <div class="row valign-wrapper">
+    <div class="card col s12 m8 offset-m2 l4 offset-l4">
+    <div class="card-content center-align">
+    <img style="width:60%;" src="{{asset('assets/images/logo/logo_800.png')}}" alt="logo"/></div>
+    {{ include('@FOSUser/Security/login_content.html.twig') }}
+    </div>
+</div>
+{% endblock fos_user_content %}

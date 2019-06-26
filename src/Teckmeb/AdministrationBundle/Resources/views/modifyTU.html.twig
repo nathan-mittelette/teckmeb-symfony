@@ -1,0 +1,58 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formModifyTU "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion des TU</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Modifier un TU</span>
+                    <div class="row no-margin">
+                        {{ form_start(formModifyTU) }}
+                        {{ form_errors(formModifyTU) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formModifyTU.teachingUnitCode) }}
+                            {{ form_label(formModifyTU.teachingUnitCode, "Code du TU") }}
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formModifyTU.creationYear) }}
+                            {{ form_label(formModifyTU.creationYear, "Date de création") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            {{ form_widget(formModifyTU.teachingUnitName) }}
+                            {{ form_label(formModifyTU.teachingUnitName, "Nom du TU") }}
+                        </div>
+                    </div>
+                    <div class="row no-margin">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter les modules</span>
+                            {{ form_row(formModifyTU.modules) }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect  ">Valider</button>
+                        <a class="btn-flat waves-effect  " href="{{ path('teckmeb_administration_homepage') }}">Retour</a>
+                    </div>
+                    {{ form_rest(formModifyTU) }}
+                    {{ form_end(formModifyTU) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

@@ -1,0 +1,11 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Notifications
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <main class="container">
+        <h3>Ajout d'une notification</h3>
+        {{ form(form) }}
+        </main>
+    {% endblock %}

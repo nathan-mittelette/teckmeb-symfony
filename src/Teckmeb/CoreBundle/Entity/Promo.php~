@@ -1,0 +1,52 @@
+<?php
+
+namespace Teckmeb\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Promo
+ *
+ * @ORM\Table(name="promo")
+ * @ORM\Entity(repositoryClass="Teckmeb\CoreBundle\Repository\PromoRepository")
+ */
+class Promo
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+   * @ORM\ManyToOne(targetEntity="Teckmeb\CoreBundle\Entity\Semestre")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $semestre;
+    
+    /**
+   * @ORM\ManyToOne(targetEntity="Teckmeb\CoreBundle\Entity\Subject")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $subject;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="promoName", type="string", length=255)
+     */
+    private $promoName;
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

@@ -1,0 +1,138 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Emploi du temps
+{% endblock %}
+{% block style %}
+    {{ parent () }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/TimeTable/timetable.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <h4 class="center-align">Emploi du temps</h4>
+        <div class='row hide-on-small-only'>
+            <div class="col s1">
+                <div class="center-align">
+                    <a href="{{ path('teckmeb_time_table_view', {'date':datePrec})}}">
+                        <i class="material-icons medium">keyboard_arrow_left</i>
+                    </a>
+                </div>
+            </div>
+            <div class='col s10'>
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            {% for day in tabDays %}
+                                <th>
+                                    {{ day }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if Vide %}
+                            <tr>
+                                <td colspan="5" rowspan="5">
+                                    <p class="flow-text">Aucun cours cette semaine</p>
+                                </td>
+                            </tr>
+                            {% else %}
+                            {% for now in tabHoraire %}
+                                <tr>
+                                    {% for Date, v in tabDate %}
+                                        {% if tabDate[Date][now] is defined %}
+                                            <td class="hoverable" rowspan='{{tabDate[Date][now].DureeNum}}' style='background-color:{{tabDate[Date][now].Couleur}};height :{{tabDate[Date][now].DureeNum * 25}}px;width:275px;border-bottom-style:hidden;'>
+                                                <p style="font-size:9pt;">
+                                                    {{tabDate[Date][now].Cours}}<br>
+                                                        {{tabDate[Date][now].Description}}<br>
+                                                            {{tabDate[Date][now].Location}}<br>
+                                                                {{tabDate[Date][now].Groupe}}</p>
+                                                        </td>
+                                                        {% else %}
+                                                        {% if tabDispo[Date][now] is not defined %}
+                                                            <td rowspan="1" style="width:275px;height:25px;border-bottom-style:hidden;"></td>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col s1">
+                            <div class="center-align">
+                                <a href="{{ path('teckmeb_time_table_view', {'date':dateSuiv})}}">
+                                    <i class="material-icons medium">keyboard_arrow_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="center-align row hide-on-small-only">
+                        <a class="btn-flat" href="{{ path('teckmeb_time_table_modify') }}">Modifier</a>
+                        <a class="btn-flat" href="{{ path('teckmeb_time_table_view') }}">Aujourd'hui</a>
+                    </div>
+                    <div class="row hide-on-med-and-up">
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="center-align row">
+                                        <a class="btn-flat" href="{{ path('teckmeb_time_table_modify') }}">Modifier</a>
+                                        <a class="btn-flat" href="{{ path('teckmeb_time_table_view') }}">Aujourd'hui</a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="{{ path('teckmeb_time_table_view', {'date':datePrec})}}" class="left">
+                                            <i class="material-icons medium">keyboard_arrow_left</i>
+                                        </a>
+                                        <a href="{{ path('teckmeb_time_table_view', {'date':dateSuiv})}}" class="right">
+                                            <i class="material-icons medium">keyboard_arrow_right</i>
+                                        </a>
+                                    </div>
+                                    <table class="centered">
+                                        {% for Date, v in tabDate %}
+                                            {% set index = loop.index %}
+                                            <tr>
+                                                <th class="center-align">
+                                                    {% for day in tabDays %}
+                                                        {% if loop.index == index %}
+                                                            {{day}}{% endif%}{% endfor %}
+                                                    </th>
+                                                </tr>
+                                                {% for now in tabHoraire %}
+                                                    <tr>
+                                                        {% if tabDate[Date][now] is defined %}
+                                                            <td class="hoverable" rowspan='' style='background-color:{{tabDate[Date][now].Couleur}};border-bottom-style:hidden;'>
+                                                                <p class="left-align">
+                                                                    {{tabDate[Date][now].HoraireDebut}}</p>
+                                                                <p class="flow-text" style="font-size:9pt;">
+                                                                    {{tabDate[Date][now].Cours}}<br>
+                                                                        {{tabDate[Date][now].Description}}<br>
+                                                                            {{tabDate[Date][now].Location}}<br>
+                                                                                {{tabDate[Date][now].Groupe}}</p>
+                                                                            <p class="left-align">
+                                                                                {{tabDate[Date][now].HoraireFin}}</p>
+                                                                        </td>
+                                                                    {% endif %}
+                                                                </tr>
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                    </table>
+                                                    <br/>
+                                                    <div class="row">
+                                                        <a href="{{ path('teckmeb_time_table_view', {'date':datePrec})}}" class="left">
+                                                            <i class="material-icons medium">keyboard_arrow_left</i>
+                                                        </a>
+                                                        <a href="{{ path('teckmeb_time_table_view', {'date':dateSuiv})}}" class="right">
+                                                            <i class="material-icons medium">keyboard_arrow_right</i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="center-align">
+                                                        <a class="btn-flat" href="{{ path('teckmeb_time_table_modify') }}">Modifier</a>
+                                                        <a class="btn-flat" href="{{ path('teckmeb_time_table_view') }}">Aujourd'hui</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endblock %}
+                            

@@ -1,0 +1,179 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+PTUT - {{ptut.name}}
+{% endblock %}
+{% block script %}
+{{ parent()}}
+{% javascripts filter='?jsqueeze' 'assets/js/Ptut/view.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+{% block body %}
+{{ parent() }}
+<main class="container">
+    <h5><a href="{{ path('teckmeb_ptut_homepage') }}" class="waves-effect btn-small">
+            <i class="material-icons ">keyboard_arrow_left</i>
+        </a>{{ptut.name}}</h5>
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Gestion du PTUT</span>
+            <p class="flow-text">Tuteur : {{ptut.teacher}}</p>
+            <p class="flow-text">Description : {{ptut.description}}</p>
+            <div class="row">
+                <div class="col s4">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Membres</span>
+                            <table>
+                                <thead>
+                                    <th>Groupe</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                </thead>
+                                <tbody>
+                                    {% for student in ptut.students %}
+                                    <tr>
+                                        <td>{{student.currentGroupe}}</td>
+                                        <td>{{student.user.name}}</td>
+                                        <td>{{student.user.surname}}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="3">Pas de membres</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s8">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Rendez-vous</span>
+                            <div class="row">
+                                <div class="col s12" id="valide">
+                                    {% if not is_granted('ROLE_TEACHER') %}
+                                    <a class="btn-flat waves-effect   modal-trigger right" href="#modal1">Proposer un
+                                        rendez-vous</a>
+                                    {% endif %}
+                                    {% if listNonValide|length != 0 %}
+                                    <table class="centered">
+                                        <thead>
+                                            <th>Horaire proposé</th>
+                                            <th>Valider</th>
+                                            <th>Supprimer</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for app in listNonValide %}
+                                            <tr>
+                                                <td>
+                                                    {{app.date|date("d/m/Y")}}
+                                                    {{app.date|date('H:i')}}
+                                                </td>
+                                                <td>
+                                                    <a href="{{path('teckmeb_ptut_valide_app' , {'id' : app.id})}}">
+                                                        <i class="material-icons">check</i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{path('teckmeb_ptut_delete_app' , {'id' : app.id})}}">
+                                                        <i class="material-icons">close</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="4">Vous n'avez pas de rendez-vous à valider</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+                                </div>
+                                <div class="col s12" id="valide">
+                                    <table class="centered">
+                                        <thead>
+                                            <th>Date</th>
+                                            <th>Heure</th>
+                                            <th>Ajouter/Modifier</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for app in listValide %}
+                                            <tr>
+                                                <td>{{app.date|date("d/m/Y")}}</td>
+                                                <td>{{app.date|date('H:i')}}</td>
+                                                <td><a class="btn-flat waves-effect   modal-trigger"
+                                                        href="#Comment{{app.id}}">
+                                                        <i class="material-icons">add</i>
+                                                    </a></td>
+                                            </tr>
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="4">Vous n'avez pas encore eu de rendez-vous</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal" id="modal1">
+                                <form action="#" method="POST">
+                                    <div class="modal-content">
+                                        <h4>Choisissez une date de rendez-vous</h4>
+                                        <p>Vous pouvez choisir une date pour rencontrer votre tuteur : ce dernier pourra
+                                            l'accepter ou non.</p>
+                                        <div class="row">
+                                            <div class="input-field col s3">
+                                                <input class="timepicker" id="time" name="time" type="text">
+                                                <label for="time">Choisissez une heure</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s3">
+                                                <input class="datepicker" id="date" name="date" type="text">
+                                                <label for="date">Choisissez une date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="modal-close waves-effect waves-green btn-flat" href="#!">Fermer</a>
+                                        <button class="modal-close waves-effect waves-green btn-flat">Proposer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% for app in listValide %}
+                    <div class="modal" id="Comment{{app.id}}">
+                        <form action="{{path('teckmeb_ptut_comment_app', {'id' : app.id})}}" method="POST">
+                            <div class="modal-content">
+                                <h4>Commentaires à propos de la séance</h4>
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea class="materialize-textarea" id="textarea{{app.id}}"
+                                                name="comment">{{app.comment}}</textarea>
+                                            <label for="textarea{{app.id}}">Saisissez vos commentaires</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="modal-close waves-effect btn-flat" href="#!">Fermer</a>
+                                <button class="modal-close waves-effect btn-flat">Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if is_granted('ROLE_TEACHER') %}
+        <div class="card-action">
+            <a class="btn-flat" href="{{path('teckmeb_ptut_modify' , {id : ptut.id})}}">Modifier</a>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Contrôles
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Control/add.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Ajouter un contrôle</h4>
+            <div class="card  ">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s8 l6">
+                            {{ form_widget(form.controlName) }}
+                            {{ form_label(form.controlName, "Libellé") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6 m4 l1">
+                            {{ form_widget(form.coefficient, {'attr': {'value': '1'}}) }}
+                            {{ form_label(form.coefficient, "Coefficient") }}
+                        </div>
+                        <div class="input-field col s6 m4 l1">
+                            {{ form_widget(form.divisor, {'attr': {'value': '20'}}) }}
+                            {{ form_label(form.divisor, "Diviseur") }}
+                        </div>
+                        <div class="input-field col s6 m4 l4">
+                            {% if form.education is defined %}
+                                {{ form_widget(form.education) }}
+                                {{ form_label(form.education, "Groupe") }}
+                                {% else %}
+                                {{ form_widget(form.promo) }}
+                                {{ form_label(form.promo, "Promo") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m6 l3">
+                            {{ form_row(form.controlDate) }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect  text-" type="submit">Ajouter</button>
+                        <a class="btn-flat waves-effect  text-" href="{{ path('teckmeb_control_homepage') }}">Annuler</a>
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

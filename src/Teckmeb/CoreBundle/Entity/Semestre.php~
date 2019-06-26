@@ -1,0 +1,242 @@
+<?php
+
+namespace Teckmeb\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Semester
+ *
+ * @ORM\Table(name="semestre")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="Teckmeb\CoreBundle\Repository\SemestreRepository")
+ */
+class Semestre
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="semestreFullName", type="string", length=100)
+     */
+    private $semestreFullName;
+    
+    /**
+   * @ORM\ManyToOne(targetEntity="Teckmeb\AdministrationBundle\Entity\Course")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $course;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="schoolYear", type="integer")
+     */
+    private $schoolYear;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="delay", type="boolean")
+     */
+    private $delay;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Teckmeb\CoreBundle\Entity\Groupe", mappedBy="semestre")
+     */
+    private $groupes;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="beginDate", type="datetime")
+     */
+    private $beginDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="endDate", type="datetime")
+     */
+    private $endDate;
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function createSemestreFullName()
+    {
+        $resultat = $this->getSchoolYear() . ' ' . $this->getCourse()->getCourseType()->getName() . ' - ';
+        $resultat = ($this->getDelay()) ? $resultat . 'Différé' : $resultat . 'Normal';
+        $this->setSemestreFullName($resultat);
+    }
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        $now = new \DateTime();
+        return ($now->diff($this->getEndDate())->invert == 0 && $now->diff($this->getBeginDate())->invert == 1);
+    }
+
+    /**
+     * Set course
+     *
+     * @param \Teckmeb\AdministrationBundle\Entity\Course $course
+     *
+     * @return Semestre
+     */
+    public function setCourse(\Teckmeb\AdministrationBundle\Entity\Course $course)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \Teckmeb\AdministrationBundle\Entity\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * Set schoolYear
+     *
+     * @param integer $schoolYear
+     *
+     * @return Semestre
+     */
+    public function setSchoolYear($schoolYear)
+    {
+        $this->schoolYear = $schoolYear;
+
+        return $this;
+    }
+
+    /**
+     * Get schoolYear
+     *
+     * @return integer
+     */
+    public function getSchoolYear()
+    {
+        return $this->schoolYear;
+    }
+
+    /**
+     * Set delay
+     *
+     * @param boolean $delay
+     *
+     * @return Semestre
+     */
+    public function setDelay($delay)
+    {
+        $this->delay = $delay;
+
+        return $this;
+    }
+
+    /**
+     * Get delay
+     *
+     * @return boolean
+     */
+    public function getDelay()
+    {
+        return $this->delay;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $date = new \DateTime();
+        $this->schoolYear = $date->format('Y');
+        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add groupe
+     *
+     * @param \Teckmeb\CoreBundle\Entity\Groupe $groupe
+     *
+     * @return Semestre
+     */
+    public function addGroupe(\Teckmeb\CoreBundle\Entity\Groupe $groupe)
+    {
+        $this->groupes[] = $groupe;
+        $groupe->setSemestre($this);
+        return $this;
+    }
+
+    /**
+     * Remove groupe
+     *
+     * @param \Teckmeb\CoreBundle\Entity\Groupe $groupe
+     */
+    public function removeGroupe(\Teckmeb\CoreBundle\Entity\Groupe $groupe)
+    {
+        $this->groupes->removeElement($groupe);
+        $groupe->setSemestre(null);
+    }
+
+    /**
+     * Get groupes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGroupes()
+    {
+        return $this->groupes;
+    }
+
+    /**
+     * Set semestreFullName
+     *
+     * @param string $semestreFullName
+     *
+     * @return Semestre
+     */
+    public function setSemestreFullName($semestreFullName)
+    {
+        $this->semestreFullName = $semestreFullName;
+
+        return $this;
+    }
+
+    /**
+     * Get semestreFullName
+     *
+     * @return string
+     */
+    public function getSemestreFullName()
+    {
+        return $this->semestreFullName;
+    }
+}

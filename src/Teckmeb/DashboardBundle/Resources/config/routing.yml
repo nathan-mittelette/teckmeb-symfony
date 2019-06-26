@@ -1,0 +1,3 @@
+teckmeb_dashboard_homepage:
+    path:     /
+    defaults: { _controller: TeckmebDashboardBundle:Dashboard:dashboard }

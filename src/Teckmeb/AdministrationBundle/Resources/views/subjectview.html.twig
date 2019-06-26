@@ -1,0 +1,134 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Attribution des sujets au professeur du groupe</h4>
+            <span class="red-text">Professeur absent de la base de données</span><br/>
+            <span class="green-text">Professeur en base de données</span>
+            <div class="card">
+                <form action="{{path('teckmeb_administration_valide_subject', {'id' : groupe.id})}}" method="POST">
+                    <div class="card-content">
+                        <span class="card-title">Professeurs du groupe</span>
+                        <table class="centered stripped">
+                            <thead>
+                                <th>Sujet</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email probable</th>
+                            </thead>
+                            <tbody>
+                                {% for module, resultat  in tabGood %}
+                                    <tr>
+                                        <td>
+                                            {{module}}</td>
+                                        <td class="{% if resultat.TeacherExiste %}green{% else %}red{% endif %}-text">
+                                            {{resultat.nom}}</td>
+                                        <td class="{% if resultat.TeacherExiste %}green{% else %}red{% endif %}-text">
+                                            {{resultat.prenom}}</td>
+                                        <td>
+                                            {% if not resultat.TeacherExiste %}
+                                                <div class="input-field">
+                                                    <label for="{{module}}">Email à saisir</label><input type="email" name="{{module}}" id="{{module}}" value="{{resultat.prenom|lower}}.{{resultat.nom|lower}}@univ-lyon1.fr" required/></div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <span class="card-title">Professeurs avec choix</span>
+                        <table class="centered">
+                            <thead>
+                                <th>Module</th>
+                                <th>Professeurs potentiels</th>
+                                <th>Email</th>
+                            </thead>
+                            <tbody>
+                                {% for module, resultat in tabChoix %}
+                                    <tr>
+                                        <td rowspan="{{resultat.listProf|length}}">
+                                            {{module}}</td>
+                                        {% for prof in resultat.listProf %}
+                                            {% if not loop.first %}
+                                                <tr>
+                                                    <td></td>
+                                                {% endif %}
+                                                <td>
+                                                    <p>
+                                                        <label>
+                                                            <input name="{{module}}-choix" type="radio" value="{{loop.index0}}" {% if loop.first %} checked {% endif %}/>
+                                                            <span class="{% if prof.TeacherExiste %}green{% else %}red{% endif %}-text">
+                                                                {{prof.nom}}
+                                                                {{prof.prenom}}</span>
+                                                        </label>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    {% if not prof.TeacherExiste %}
+                                                        <div class="input-field">
+                                                            <label for="{{module}}">Email a saisir</label><input type="email" name="{{module}}-email{{loop.index0}}" id="{{module}}" value="{{prof.prenom|lower}}.{{prof.nom|lower}}@univ-lyon1.fr" required/></div>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn-flat">Valider</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Sujets avec erreurs</span>
+                        <table class="centered stripped">
+                            <thead>
+                                <th>Sujet</th>
+                                <th>Erreur</th>
+                                <th>Professeurs concernés</th>
+                            </thead>
+                            <tbody>
+                                {% for module, resultat in tabBad %}
+                                    <tr>
+                                        <td>
+                                            {{module}}</td>
+                                        <td>
+                                            {{resultat.erreur}}</td>
+                                        {% for professeur in resultat.choix %}
+                                            {% if not loop.first %}
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                            {% endif %}
+                                            <td>
+                                                {{professeur.nom}}
+                                                {{professeur.prenom}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-action"></div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

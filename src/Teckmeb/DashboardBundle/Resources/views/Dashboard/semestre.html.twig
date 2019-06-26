@@ -1,0 +1,49 @@
+<div class="card hoverable">
+    <a class="black-text" href="{{path('teckmeb_administration_homepage')}}">
+        <div class="card-content">
+            <span class="card-title">Semestre en cours</span>
+            <table class="centered highlight striped">
+                <thead>
+                    <th>Nom</th>
+                    <th>Debut</th>
+                    <th>Fin</th>
+                </thead>
+                <tbody>
+                    {% if listSemestre is not null %}
+                        {% for semestre in listSemestre %}
+                            <tr>
+                                <td>
+                                    <a class="black-text" href="{{path('teckmeb_administration_modify_semestre' , {id : semestre.id})}}">
+                                        {{semestre}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="black-text" href="{{path('teckmeb_administration_modify_semestre' , {id : semestre.id})}}">
+                                        {{semestre.beginDate|date('d/m/Y')}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="black-text" href="{{path('teckmeb_administration_modify_semestre' , {id : semestre.id})}}">
+                                        {{semestre.endDate|date('d/m/Y')}}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">
+                                    Il n'y a pas de semestre en cours
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">
+                                Il n'y a pas de semestre en cours
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </a>
+</div>

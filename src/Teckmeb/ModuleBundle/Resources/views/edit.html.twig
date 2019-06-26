@@ -1,0 +1,74 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme form "TeckmebModuleBundle:Form:field.html.twig" %}
+{% block title %}
+    Admin - Modules
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <main class="container">
+        <h4>Modifier le controller</h4>
+        <div class="card">
+            {{form_start(form)}}
+            <div class="card-content">
+                <span class="card-title">{{controller.nomNavbar}}</span>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        {{form_row(form.nomController)}}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        {{form_row(form.nomBundle)}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        {{form_row(form.nomNavbar)}}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        {{form_row(form.nomRoute)}}
+                    </div>
+                </div>
+                <div class="switch center-align">
+                    <label>
+                        Off
+                        {{form_widget(form.valide)}}
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+            </div>
+            <div class="card-action">
+                <button class="btn-flat">Valider</button>
+                <a class="btn-flat" href="{{path('teckmeb_module_homepage')}}">Retour</a>
+            </div>
+            {{form_end(form)}}
+        </div>
+    </div>
+    {% if listOption|length != 0 %}
+        <div class="card">
+            {{form_start(formOption)}}
+            <div class="card-content">
+                <span class="card-title">Options</span>
+                {% for option in listOption %}
+                    <div class="row valign-wrapper">
+                        <div class="col s4">
+                            {{option.nomOption}}
+                        </div>
+                        <div class="input-field inline col s3">
+                            {{form_row(formOption.offsetGet("value" ~ loop.index0))}}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="card-action">
+                <button class="btn-flat">Valider</button>
+            </div>
+            {{form_end(formOption)}}
+        </div>
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.tooltipped');
+            var instances = M.Tooltip.init(elems, null);
+        });
+    </script>
+</main>{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <main class="container">
+        <h4 class="header">
+                <a href="{{ path('teckmeb_administration_homepage') }}" class="waves-effect  btn-small ">
+                        <i class="material-icons ">keyboard_arrow_left</i>
+                    </a>
+                    Voici les données qui vont être supprimées</h4>
+        <span class="right"><a class="btn" href="{{path('teckmeb_administration_getSQL')}}">Récupérer un fichier de sauvegarde</a></span>
+        <div class="row">
+            <div class="col s12 card">
+                <span class="card-title">Etudiants</span>
+                <table class="centered striped">
+                    <thead>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Numéro</th>
+                    </thead>
+                    <tbody>
+                        {% for student in listStudent %}
+                            <tr>
+                                <td>
+                                    {{student.user.surname|title}}
+                                </td>
+                                <td>
+                                    {{student.user.name|title}}
+                                </td>
+                                <td>
+                                    {{student.numStudent}}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3">Il n'y a pas d'étudiants à supprimer</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 card">
+                <span class="card-title">Groupes</span>
+                <table class="centered striped">
+                    <thead>
+                        <th>Nom</th>
+                        <th>Semestre</th>
+                    </thead>
+                    <tbody>
+                        {% for groupe in listGroupe %}
+                            <tr>
+                                <td>
+                                    {{groupe}}
+                                </td>
+                                <td>
+                                    {{groupe.semestre}}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2">Il n'y a pas de groupes à supprimer</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 card">
+                <span class="card-title">Etudiants</span>
+                <table class="centered striped">
+                    <thead>
+                        <th>Nom</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                    </thead>
+                    <tbody>
+                        {% for semestre in listSemestre %}
+                            <tr>
+                                <td>
+                                    {{semestre}}
+                                </td>
+                                <td>
+                                    {{semestre.beginDate|date("d/m/Y")}}
+                                </td>
+                                <td>
+                                    {{semestre.endDate|date("d/m/Y")}}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3">Il n'y a pas de semestres à supprimer</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="center-align">
+            <a class="btn" href="{{path('teckmeb_administration_removeBD')}}">Supprimer</a>
+        </div>
+    </main>
+{% endblock %}

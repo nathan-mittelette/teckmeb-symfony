@@ -1,0 +1,78 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formAbsence "TeckmebAdministrationBundle:Form:fields2.html.twig" %}
+{% block title %}
+    Absences
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Absence/modify.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <main class="container">
+        <h4>Modification des absences</h4>
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Absence de
+                    {{absence.student.user.name|title}}
+                    {{absence.student.user.surname|title}}
+                    du
+                    {{absence.beginDate|date('d/m/y')}}</span>
+                {{ form_start(formAbsence) }}
+                {{ form_errors(formAbsence) }}
+                <div class="row">
+                    <div class="input-field col s3">
+                        {{ form_widget(formAbsence.beginDate)}}
+                        <label>
+                            {{ form_label(formAbsence.beginDate, "Date de l'absence") }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s2">
+                        <select id="heureDebut" name="heureDebut">
+                            <option value="08:00" {% if absence.beginDate|date('H:i') == "08:00" %} selected {% endif %}>08:00</option>
+                            <option value="10:00" {% if absence.beginDate|date('H:i') == "10:00" %} selected {% endif %}>10:00</option>
+                            <option value="14:00" {% if absence.beginDate|date('H:i') == "14:00" or absence.beginDate|date('H:i') == "13:30" %} selected {% endif %}>14:00</option>
+                            <option value="16:00" {% if absence.beginDate|date('H:i') == "16:00" or absence.beginDate|date('H:i') == "15:30" %} selected {% endif %}>16:00</option>
+                        </select>
+                        <label for="heureDebut">Début de l'absence</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s2">
+                        <select id="heureFin" name="heureFin">
+                            <option value="10:00" {% if absence.EndDate|date('H:i') == "10:00" %} selected {% endif %}>10:00</option>
+                            <option value="12:00" {% if absence.EndDate|date('H:i') == "12:00" %} selected {% endif %}>12:00</option>
+                            <option value="16:00" {% if absence.EndDate|date('H:i') == "16:00" or absence.EndDate|date('H:i') == "15:30" %} selected {% endif %}>16:00</option>
+                            <option value="18:00" {% if absence.EndDate|date('H:i') == "18:00" or absence.EndDate|date('H:i') == "17:30" %} selected {% endif %}>18:00</option>
+                        </select>
+                        <label for="heureFin">Fin de l'absence</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m6 l3">
+                        {{ form_widget(formAbsence.absenceType) }}
+                        <label>
+                            {{ form_label(formAbsence.absenceType, "Type de l'absence") }}</label>
+                    </div>
+                    <div class="input-field col s12 m6 l2">
+                        <label>
+                            {{ form_widget(formAbsence.justified) }}
+                            <span>
+                                {{ form_label(formAbsence.justified, "Justifié") }}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect">Valider</button>
+                    <a href="{{ path('teckmeb_absence_viewAll')}}" class="btn-flat waves-effect">Retour</a>
+                    <a href="{{ path('teckmeb_absence_delete' , { "id"  : absence.id})}}" class="btn-flat waves-effect">Supprimer</a>
+                </div>
+                {{ form_rest(formAbsence) }}
+                {{ form_end(formAbsence) }}
+            </div>
+        </div>
+    </main>
+{% endblock %}

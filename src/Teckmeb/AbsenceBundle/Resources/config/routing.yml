@@ -1,0 +1,31 @@
+teckmeb_absence_homepage:
+    path:     /absence
+    defaults: { _controller: TeckmebAbsenceBundle:Absence:home }
+    
+teckmeb_absence_viewAll:
+    path:    /absence/ViewAll
+    defaults: { _controller: TeckmebAbsenceBundle:Absence:viewAll }
+
+teckmeb_absence_modify:
+    path:    /absence/modify/{id}
+    defaults: { _controller: TeckmebAbsenceBundle:Absence:modify }
+    requirements:
+        id: \d+
+        
+teckmeb_absence_delete:
+    path:    /absence/delete/{id}
+    defaults: { _controller: TeckmebAbsenceBundle:Absence:delete }
+    requirements:
+        id: \d+
+        
+teckmeb_absence_view:
+    path:    /absence/view
+    defaults: { _controller: TeckmebAbsenceBundle:AbsenceEtudiant:view }
+    
+teckmeb_absence_modify_justification:
+    path:    /absence/modify/justification/{id}
+    defaults: { _controller: TeckmebAbsenceBundle:Absence:modifyJustification }
+    requirements:
+        id: \d+
+    
+

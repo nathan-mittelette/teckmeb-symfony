@@ -1,0 +1,49 @@
+<div class="card hoverable">
+    <div class="card-content">
+        <span class="card-title">
+            <a href="{{path('teckmeb_mark_view')}}">Notes</a>
+        </span>
+        <div class="row">
+            {% if retourMark is defined %}
+                {% for mark in retourMark %}
+                    <div class="col s12 m6 l5">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title truncate activator" title="{% if mark.control.Promo is not null %}{{mark.control.Promo.subject.subjectName}}{% else %}{{mark.control.Education.subject.subjectName}}{% endif %}">
+                                    {% if mark.control.Promo is not null %}
+                                        {{mark.control.Promo.subject.subjectName}}{% else %}
+                                        {{mark.control.Education.subject.subjectName}}{% endif %}
+                                </span>
+                                <div class="section">
+                                    <p>
+                                        <b>Note :
+                                            {{mark.value ~ "/" ~ mark.control.divisor}}</b>
+                                    </p>
+                                    <p>Coefficient :
+                                        {{mark.control.coefficient}}</p>
+                                </div>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title truncate">Détails</span>
+                                <p>Date :
+                                    {{mark.control.controlDate|date('d/m') }}</p>
+                                <p>Moyenne :
+                                    {% if mark.control.median is not null %}
+                                        {{mark.control.median}}{% else %}Non calculée{% endif %}
+                                </p>
+                                <p>Ecart Type :
+                                    {% if mark.control.average is not null %}
+                                        {{mark.control.average}}{% else %}Non calculée{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="center-align">Vous ne possédez pas encore de notes</p>
+                {% endfor %}
+                {% else %}
+                <p class="center-align">Vous ne possédez pas encore de notes</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

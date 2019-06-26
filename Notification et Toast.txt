@@ -1,0 +1,48 @@
+Absence bien supprimée
+Absence bien modifiée
+Parcours bien ajouté
+UE bien ajouté
+Module bien ajouté
+Sujet bien ajouté
+Semestre bien ajouté
+Groupe bien ajouté
+Etudiant bien ajouté
+Professeur bien ajouté
+Le parcours a bien été modifié
+Le parcours a bien été supprimé
+L\'UE a bien été modifié
+Le module a bien été supprimé
+Le module a bien été modifié
+Le semestre a bien été modifié
+Le groupe a bien été ajouté au semestre
+Le groupe a bien été modifié
+Le sujet a bien été modifié
+Le groupe a bien été supprimé du semestre
+Les ajouts de sujet au professeur ont bien été pris en compte
+Le groupe a bien été supprimé
+DS bien ajouté
+DS bien modifié
+DS bien supprimé
+Ajout d\'une note
+Votre réponse a bien été enregistrée
+Richard a répondu
+La question a bien été supprimée
+Erreur dans l\'url
+Emploi du temps a bien été ajouté
+Notes bien ajoutées
+L\'ajout des notes a été fait
+Ajout d\'une absence
+Votre commentaire a bien été ajouté
+La demande de rendez-vous a bien été validée
+Votre rendez-vous a été validé
+La demande de rendez-vous a bien été refusée
+Le rendez n\'a pas été validé
+La demande de rendez-vous a bien été envoyée
+Vous avez une demande de rendez-vous
+La demande a bien été acceptée
+Votre ptut a été validé
+La demande a bien été refusée
+La demande a bien été envoyée
+Vous avez une nouvelle demande de Ptut
+La question a bien été posée
+vous a posé une question

@@ -1,0 +1,185 @@
+<?php
+
+namespace Teckmeb\AdministrationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Module
+ *
+ * @ORM\Table(name="module")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="Teckmeb\AdministrationBundle\Repository\ModuleRepository")
+ */
+class Module
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="moduleCode", type="string", length=10)
+     */
+    private $moduleCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="moduleName", type="string", length=255)
+     */
+    private $moduleName;
+    
+    /**
+   * @ORM\ManyToMany(targetEntity="Teckmeb\CoreBundle\Entity\Subject", cascade={"persist"})
+   * @ORM\JoinTable(name="module_subject")
+   */
+    private $subjects;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="moduleFullName", type="string", length=255)
+     */
+    private $moduleFullName;
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function createModuleFullName()
+    {
+        $this->setModuleFullName($this->getModuleCode() . ' ' . $this->getModuleName());
+    }
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set moduleCode
+     *
+     * @param string $moduleCode
+     *
+     * @return Module
+     */
+    public function setModuleCode($moduleCode)
+    {
+        $this->moduleCode = $moduleCode;
+
+        return $this;
+    }
+
+    /**
+     * Get moduleCode
+     *
+     * @return string
+     */
+    public function getModuleCode()
+    {
+        return $this->moduleCode;
+    }
+
+    /**
+     * Set moduleName
+     *
+     * @param string $moduleName
+     *
+     * @return Module
+     */
+    public function setModuleName($moduleName)
+    {
+        $this->moduleName = $moduleName;
+
+        return $this;
+    }
+
+    /**
+     * Get moduleName
+     *
+     * @return string
+     */
+    public function getModuleName()
+    {
+        return $this->moduleName;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->subjects = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add subject
+     *
+     * @param \Teckmeb\CoreBundle\Entity\Subject $subject
+     *
+     * @return Module
+     */
+    public function addSubject(\Teckmeb\CoreBundle\Entity\Subject $subject)
+    {
+        if (!$this->subjects->contains($subject))
+        {
+            $this->subjects[] = $subject;
+        }
+        return $this;
+    }
+
+    /**
+     * Remove subject
+     *
+     * @param \Teckmeb\CoreBundle\Entity\Subject $subject
+     */
+    public function removeSubject(\Teckmeb\CoreBundle\Entity\Subject $subject)
+    {
+        $this->subjects->removeElement($subject);
+    }
+
+    /**
+     * Get subjects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubjects()
+    {
+        return $this->subjects;
+    }
+
+    /**
+     * Set moduleFullName
+     *
+     * @param string $moduleFullName
+     *
+     * @return Module
+     */
+    public function setModuleFullName($moduleFullName)
+    {
+        $this->moduleFullName = $moduleFullName;
+
+        return $this;
+    }
+
+    /**
+     * Get moduleFullName
+     *
+     * @return string
+     */
+    public function getModuleFullName()
+    {
+        return $this->moduleFullName;
+    }
+}

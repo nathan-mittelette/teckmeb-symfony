@@ -1,0 +1,80 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Contrôles
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">
+                {{ control.controlName }}</h4>
+            {% if tabErreur|length > 0 %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Erreurs</span>
+                        <span class="card-title right">
+                                <a href="{{path('teckmeb_mark_valide_excel' , {'id' : control.id})}}" class="btn">Valider</a>
+                            </span>
+                        <table class="centered">
+                            <thead>
+                                <th>Id</th>
+                                <th>Note</th>
+                                <th>Message d'erreur</th>
+                            </thead>
+                            <tbody>
+                                {% for erreur in tabErreur %}
+                                    <tr>
+                                        <td>
+                                            {{erreur.Id}}</td>
+                                        <td>
+                                            {{erreur.Note}}</td>
+                                        <td>
+                                            {{erreur.Message}}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="3">Il n'y a pas d'erreurs, vous pouvez valider</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Résumé</span>
+                    <span class="card-title right">
+                            <a href="{{path('teckmeb_mark_valide_excel' , {'id' : control.id})}}" class="btn">Valider</a>
+                        </span>
+                    <table class="centered">
+                        <thead>
+                            <th>Numéro étudiant</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Note</th>
+                        </thead>
+                        <tbody>
+                            {% for student in tabRetour %}
+                                <tr>
+                                    <td class="{% if student.Note < control.divisor/2 %}red{% else %}green{% endif %}-text">
+                                        {{student.Student.numStudent}}</td>
+                                    <td class="{% if student.Note < control.divisor/2 %}red{% else %}green{% endif %}-text">
+                                        {{student.Student.user.name}}</td>
+                                    <td class="{% if student.Note < control.divisor/2 %}red{% else %}green{% endif %}-text">
+                                        {{student.Student.user.surname}}</td>
+                                    <td class="{% if student.Note < control.divisor/2 %}red{% else %}green{% endif %}-text">
+                                        {{student.Note}}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4">Il n'y a pas de bonnes notes</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+                                    

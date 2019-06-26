@@ -1,0 +1,21 @@
+teckmeb_question_homepage:
+    path:     /Question
+    defaults: { _controller: TeckmebQuestionBundle:Question:home }
+    
+teckmeb_question_view:
+    path:     /Question/{id}
+    defaults: { _controller: TeckmebQuestionBundle:Question:view }
+    requirements:
+        id: \d+
+
+teckmeb_question_delete:
+    path:     /Question/delete/{id}
+    defaults: { _controller: TeckmebQuestionBundle:Question:remove }
+    requirements:
+        id: \d+
+
+teckmeb_question_modify:
+    path:     /Question/modify/{id}
+    defaults: { _controller: TeckmebQuestionBundle:Question:modify }
+    requirements:
+        id: \d+

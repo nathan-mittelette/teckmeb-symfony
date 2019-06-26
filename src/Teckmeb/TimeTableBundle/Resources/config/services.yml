@@ -1,0 +1,14 @@
+services:
+  teckmeb_timetable.timetableService:
+    class: Teckmeb\TimeTableBundle\Service\TimetableService
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - "@teckmeb_timetable.colorService"
+
+  teckmeb_timetable.colorService:
+    class: Teckmeb\TimeTableBundle\Service\ColorService
+    arguments:
+      - "@request_stack"
+
+  teckmeb_timetable.periodeEDTService:
+    class: Teckmeb\TimeTableBundle\Service\PeriodeEDTService

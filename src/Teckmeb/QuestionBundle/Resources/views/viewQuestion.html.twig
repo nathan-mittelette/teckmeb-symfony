@@ -1,0 +1,56 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Question
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">
+                <a href="{{path('teckmeb_question_homepage')}}">
+                    <i class="material-icons">arrow_back</i>
+                </a>
+                {{Question.title}}
+                ({% if Question.public %}Publique{% else %}Privée{% endif %})</h4>
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s8 offset-s4 l6 offset-l6">
+                            <p class="right-align">
+                                {{Question.student.user.name}}
+                                {{Question.student.user.surname}}</p>
+                            <div class="card-panel blue darken-1">
+                                <p>{{Question.content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% for answer in tabAnswer %}
+                        <div class="row">
+                            <div class="col l6 s8 {% if answer.Answer.user.roles[0] == "ROLE_ETUDIANT" %}offset-l6 offset-s4{% endif %}">
+                                <p {% if answer.Answer.user.roles[0] == "ROLE_ETUDIANT" %}class="right-align"{% endif %}>{{answer.Answer.user.name}} {{answer.Answer.user.surname}}</p>
+
+                                <div class="card-panel {{answer.Color}}">
+                                    <p>
+                                        {{answer.Answer.content}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="card-action">
+                    {{ form_start(formAnswer) }}
+                    {{ form_errors(formAnswer) }}
+                    <div class="row">
+                        <div class="input-field col s10">
+                            {{ form_widget(formAnswer.content) }}
+                            {{ form_label(formAnswer.content, "Réponse") }}
+                        </div>
+                        <div class="input-field col s2">
+                            <button class="btn-flat waves-effect">Envoyer</button>
+                        </div>
+                    </div>
+                    {{ form_rest(formAnswer) }}
+                    {{ form_end(formAnswer) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

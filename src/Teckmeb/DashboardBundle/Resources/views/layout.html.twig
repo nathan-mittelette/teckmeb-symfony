@@ -1,0 +1,20 @@
+{% extends "TeckmebCoreBundle::layout.html.twig" %}
+{% block title %}
+    Tableau de bord
+{% endblock %}
+{% block dashbord %}
+    {% block script %}
+    {% javascripts filter='?jsqueeze' 'assets/js/Dashboard/layout.js' 'assets/js/TriTab.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% endblock %}
+    {% block style %}
+        {{ parent () }}
+        {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Dashboard/layout.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+        {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+{{ include("TeckmebDashboardBundle::navbar.html.twig") }}
+    {% endblock %}
+{% endblock %}

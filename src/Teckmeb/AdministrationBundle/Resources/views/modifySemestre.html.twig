@@ -1,0 +1,124 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formModifySemestre "TeckmebAdministrationBundle:Form:fields2.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion des semestres</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Modifier un semestre</span>
+                    {{ form_start(formModifySemestre) }}
+                    <div class="row">
+                        {{ form_errors(formModifySemestre) }}
+                        <div class="input-field col s6 m4 l2">
+                            {{ form_widget(formModifySemestre.schoolYear) }}
+                            <label>
+                                {{ form_label(formModifySemestre.schoolYear, "Année d'étude") }}</label>
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formModifySemestre.course) }}
+                            <label>
+                                {{ form_label(formModifySemestre.course, "Choix du parcours") }}</label>
+                        </div>
+                        <div class="input-field col s12 l1">
+                            <label>
+                                {{ form_widget(formModifySemestre.delay) }}
+                                <span>
+                                    {{ form_label(formModifySemestre.delay, "Décalé") }}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m6 l3">
+                            {{ form_row(formModifySemestre.beginDate) }}
+                        </div>
+                        <div class="input-field col s12 m6 l3">
+                            {{ form_row(formModifySemestre.endDate) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect">Valider</button>
+                    <a class="btn-flat" href="{{path('teckmeb_administration_homepage')}}">Retour</a>
+                </div>
+                {{ form_rest(formModifySemestre) }}
+                {{ form_end(formModifySemestre) }}
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Gestion des groupes du semestre</span>
+                    <table class="centered striped">
+                        <thead>
+                            <th>Nom de groupe</th>
+                            <th>Modifier</th>
+                            <th>Supprimer du semestre</th>
+                        </thead>
+                        <tbody>
+                            {% for groupe in semestre.groupes %}
+                                <tr>
+                                    <td>
+                                        {{groupe.groupFullName}}</td>
+                                    <td>
+                                        <a href="{{ path('teckmeb_administration_modify_groupe', {'id': groupe.id}) }}">
+                                            <i class="material-icons  ">edit</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('teckmeb_administration_delete_groupe_from_semestre', {'idGroupe': groupe.id, 'idSemestre' : semestre.id}) }}">
+                                            <i class="material-icons  ">delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-action">
+                    <a class="btn-flat waves-effect   modal-trigger" href="#modal1">Ajouter un groupe au semestre</a>
+                </div>
+            </div>
+            <!-- Modal Structure -->
+            <div class="modal" id="modal1">
+                <div class="modal-content">
+                    <h4>Ajouter un groupe au semestre</h4>
+                    <div>
+                        {{ form_start(formAjoutGroupe) }}
+                        {{ form_errors(formAjoutGroupe) }}
+                        <div class="row">
+                            <div class="input-field col s6 m4 l2">
+                                {{ form_widget(formAjoutGroupe.groupName) }}
+                                <label>
+                                    {{ form_label(formAjoutGroupe.groupName, "Nom du groupe") }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-close waves-effect btn-flat">Ajouter</button>
+                    {{ form_rest(formAjoutGroupe) }}
+                    {{ form_end(formAjoutGroupe) }}
+                </div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var elems = document.querySelectorAll('.modal');
+                    var instances = M.Modal.init(elems, null);
+                });
+            </script>
+        </main>
+    {% endblock %}

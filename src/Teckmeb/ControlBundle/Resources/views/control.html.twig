@@ -1,0 +1,142 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Contrôles
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Control/control.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4>Contrôles</h4>
+            <div class="card">
+                <div class="card-content">
+                    <div class="section col s12 m12 l10 offset-l1 no-pad-bot">
+                        {{form_start(formFiltre)}}
+                        {{form_errors(formFiltre)}}
+                            <div class="row">
+                                <div class="input-field col s12 m4 l4">
+                                    {{form_row(formFiltre.groupe)}}
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    {{form_row(formFiltre.subject)}}
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    {{form_row(formFiltre.typeControl)}}
+                                </div>
+                            </div>
+                            <div class="row col s12 m6 l4 center-align">
+                                <button class="btn" type="submit">Filtrer</button>
+                                <a class="btn" href="{{ path('teckmeb_control_homepage') }}">Remise à zéro</a>
+                            </div>
+                        {{form_rest(formFiltre)}}
+                        {{form_end(formFiltre)}}
+                    </div>
+                    <div class="horizontal-table-wrapper">
+                        <table class="highlight centered responsive-table" id="controls-table">
+                            <thead class="small-caps">
+                                <tr>
+                                    <th>MATIERE</th>
+                                    <th>LIBELLE</th>
+                                    <th>GROUPE</th>
+                                    <th>TYPE</th>
+                                    <th>COEFFICIENT</th>
+                                    <th>DIVISEUR</th>
+                                    <th>ECART TYPE</th>
+                                    <th>MOYENNE</th>
+                                    <th>DATE</th>
+                                    <th>EDIT.</th>
+                                    <th>NOTES</th>
+                                    <th>SUPPR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for control in listControl %}
+                                    <tr>
+                                        {% if control.education %}
+                                            <td>
+                                                {{ control.education.subject.subjectCode ~ " " ~  control.education.subject.subjectName}}</td>
+                                            {% else %}
+                                            <td>
+                                                {{ control.promo.subject.subjectCode ~ " " ~  control.promo.subject.subjectName}}</td>
+                                        {% endif %}
+                                        <td>
+                                            {{ control.controlName }}</td>
+                                        {% if control.education %}
+                                            <td>
+                                                {{ control.education.groupe.groupFullName }}</td>
+                                            {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td>
+                                            {{ control.controlType.controlTypeName }}</td>
+                                        <td>
+                                            {{ control.coefficient }}</td>
+                                        <td>
+                                            {{ control.divisor }}</td>
+                                        <td>
+                                            {% if control.average is not null %}
+                                                {{ control.average }}{% else %}Non calculée{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if control.median is not null %}
+                                                {{ control.median }}{% else %}Non calculée{% endif %}
+                                        </td>
+                                        <td>
+                                            {{ control.controlDate|date("d/m/Y") }}</td>
+                                        <td>
+                                            <a href="{{ path('teckmeb_control_edit', {'id': control.id}) }}">
+                                                <i class="material-icons  text-">edit</i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('teckmeb_mark_edit', {'id': control.id}) }}">
+                                                <i class="material-icons  text-">note_add</i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="modal-trigger" href="#control{{control.id}}">
+                                                <i class="material-icons text-">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <div class="modal" id="control{{control.id}}">
+                                        <div class="modal-content">
+                                            <h4>Voulez-vous vraiment supprimer ce controle ?</h4>
+                                            <p>
+                                                {{ control.controlName }}</p>
+                                            <p>Date :
+                                                {{ control.controlDate|date("d/m/Y") }}</p>
+                                            {% if control.education %}
+                                                <p>Groupe :
+                                                    {{ control.education.groupe.groupFullName }}</p>
+                                            {% endif %}
+                                            <p>Type :
+                                                {{ control.controlType.controlTypeName }}</p>
+                                            <p>Coefficient :
+                                                {{ control.coefficient }}</p>
+                                            <p>Sur :
+                                                {{ control.divisor }}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn-flat" href="{{ path('teckmeb_control_delete', {'id': control.id}) }}">Oui</a>
+                                            <a class="btn-flat modal-close" href="#!">Non</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <td colspan="11">Pas de contrôles</td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="{{ path('teckmeb_control_add') }}" class="btn-flat waves-effect  text-">Ajouter un DS de groupe</a>
+                    <a href="{{ path('teckmeb_control_addPromo') }}" class="btn-flat waves-effect  text-">Ajouter un DS de promo</a>
+                </div>
+            </div>
+        </main>
+    {% endblock %}

@@ -1,0 +1,69 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Contrôles
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">
+                <a href="{{ path('teckmeb_control_homepage') }}" class="waves-effect  btn-small ">
+                    <i class="material-icons ">keyboard_arrow_left</i>
+                </a>
+                {{ control.controlName }}</h4>
+            <form method="post" action="{{ path('teckmeb_mark_edit', {'id': control.id}) }}">
+                <div class="card  ">
+                    <div class="card-content">
+                        <span class="card-title">
+                            {% if control.education %}
+                                {{ control.education.educationName}}
+                            {% else %}
+                                {{ control.promo.promoName}}
+                            {% endif %}
+                            Le
+                            {{ control.controlDate|date('d/m')}}</span>
+                        {% if getValideForController("MarkExcel") %}
+                            <span class="card-title right">
+                                <a class="btn" href="{{path('teckmeb_mark_add', {'id' : control.id})}}">Ajouter via Excel</a>
+                            </span>
+                        {% endif %}
+                        <div class="container">
+                            <div class="row">
+                                <table class="centered striped">
+                                    <thead>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Note /{{control.divisor}}</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for ligne in listGroupe %}
+                                            <tr>
+                                                <td colspan="3">
+                                                    <p class="flow-text">
+                                                        {{ligne.groupe}}</p>
+                                                </td>
+                                            </tr>
+                                            {% for student in ligne.listStudent %}
+                                                <tr>
+                                                    <td>
+                                                        {{ student.user.Surname}}</td>
+                                                    <td>
+                                                        {{ student.user.Name}}</td>
+                                                    <td>
+                                                        <div class="input-field col s4 offset-s4"><input type="number" name="{{ student.id }}" id="{{ student.id }}" value="{% for mark in listMark %}{% if mark.student.id == student.id %}{{ mark.value }}{% endif %}{% endfor %}" min="0" step="0.25" max="{{ control.divisor }}"/></div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect N/A transparent" type="submit">Envoyer</button>
+                        <a class="btn-flat" href="{{ path('teckmeb_control_homepage') }}">Retour</a>
+                    </div>
+                </div>
+            </form>
+        </main>
+    {% endblock %}

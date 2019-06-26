@@ -1,0 +1,4 @@
+services:
+#    teckmeb_dashboard.example:
+#        class: Teckmeb\DashboardBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

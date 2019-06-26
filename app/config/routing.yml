@@ -1,0 +1,74 @@
+teckmeb_module:
+    resource: "@TeckmebModuleBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_ptut:
+    resource: "@TeckmebPtutBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_dashboard:
+    resource: "@TeckmebDashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+teckmeb_suivi:
+    resource: "@TeckmebSuiviBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_question:
+    resource: "@TeckmebQuestionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_absence:
+    resource: "@TeckmebAbsenceBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_process:
+    resource: "@TeckmebProcessBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_administration:
+    resource: "@TeckmebAdministrationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_notification:
+    resource: "@TeckmebNotificationBundle/Resources/config/routing.yml"
+    prefix:   /
+   
+teckmeb_time_table:
+    resource: "@TeckmebTimeTableBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+teckmeb_control:
+    resource: "@TeckmebControlBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_mark:
+    resource: "@TeckmebMarkBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+teckmeb_core:
+    resource: "@TeckmebCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+teckmeb_user:
+    resource: "@TeckmebUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile

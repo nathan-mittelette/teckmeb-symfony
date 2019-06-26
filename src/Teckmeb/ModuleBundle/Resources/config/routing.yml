@@ -1,0 +1,15 @@
+teckmeb_module_homepage:
+    path:     /admin/Module
+    defaults: { _controller: TeckmebModuleBundle:Module:home }
+
+teckmeb_module_edit:
+    path:    /admin/Module/edit/{id}
+    defaults: { _controller: TeckmebModuleBundle:Module:edit}
+    requirements:
+        id: \d+
+
+teckmeb_module_delete:
+    path:    /admin/Module/delete/{id}
+    defaults: { _controller: TeckmebModuleBundle:Module:delete}
+    requirements:
+        id: \d+

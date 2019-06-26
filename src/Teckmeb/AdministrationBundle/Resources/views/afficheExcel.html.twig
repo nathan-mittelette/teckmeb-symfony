@@ -1,0 +1,106 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Ajout structure
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/vueExcel.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/vueExcel.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <div class="row">
+                <div class="col s3">
+                    <h4>Choix semestre</h4>
+                    <form method="POST" action="{{ path('teckmeb_administration_traitement')}}">
+                        <div class="input-field col s12">
+                            <select id="selectSemestre" name="selectSemestre">
+                                {% for Semestre in tabSemestre %}
+                                    <option value="{{Semestre.id}}">{{Semestre.SemestreFullName}}</option>
+                                {% endfor %}
+                            </select>
+                            <label>Choix du semestre</label>
+                        </div>
+                        <button class="btn-flat waves-effect">Valider</button>
+                    </form>
+                </div>
+                <div class="col s9">
+                    <h4>Etudiant avec erreurs</h4>
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Numéro de groupe</span>
+                            <table class="centered striped">
+                                <thead>
+                                    <th>Numéro étudiant</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Groupe</th>
+                                    <th>Erreur</th>
+                                </thead>
+                                <tbody>
+                                    {% for student in tabStudentError %}
+                                        {% if not loop.last %}
+                                            <tr>
+                                                <td>
+                                                    {{student.Username}}</td>
+                                                <td>
+                                                    {{student.Nom}}</td>
+                                                <td>
+                                                    {{student.Prenom}}</td>
+                                                <td>G{{student.Groupe}}</td>
+                                                <td class="">
+                                                    {{student.Erreur}}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <h4>Groupe créé</h4>
+        <div class="row">
+            {% for nameGroupe, groupe in tabEtudiant %}
+                <div class="col s4">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Numéro de groupe
+                                {{nameGroupe}}</span>
+                            <table class="centered striped">
+                                <thead>
+                                    <th>Numéro étudiant</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Groupe</th>
+                                </thead>
+                                <tbody>
+                                    {% for student in groupe %}
+                                        <tr>
+                                            <td>
+                                                {{student.Username}}</td>
+                                            <td>
+                                                {{student.Nom}}</td>
+                                            <td>
+                                                {{student.Prenom}}</td>
+                                            <td>G{{student.Groupe}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

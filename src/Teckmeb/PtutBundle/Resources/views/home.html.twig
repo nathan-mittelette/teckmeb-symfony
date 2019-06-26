@@ -1,0 +1,236 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    PTUT
+{% endblock %}
+{% block script %}
+    {{ parent()}}
+    {% javascripts filter='?jsqueeze' 'assets/js/Ptut/home.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <h3 class="center-align">PTUTs</h3>
+    {% if is_granted('ROLE_TEACHER') %}
+        <div class="row">
+            <div class="col m3 offset-m1 s12">
+                <div class="row">
+                    <div class="card s12">
+                        <div class="card-content">
+                            <span class="card-title center-align">PTUTs à valider</span>
+                            {% for PtutNonValide in listPtutNonValide %}
+                                {% if loop.first %}
+                                    <ul class="collapsible">
+                                    {% endif %}
+                                    <li>
+                                        <div class="collapsible-header ">
+                                            {{PtutNonValide.name}}
+                                        </div>
+                                        <div class="collapsible-body">
+                                            <div class="etudiant">
+                                                <ul class="collection with-header">
+                                                    <div class="description">
+                                                        <ul class="collection with-header">
+                                                            <li class="collection-header">
+                                                                <h6>Description</h6>
+                                                            </li>
+                                                            <li class="collection-item">
+                                                                {{PtutNonValide.description}}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <li class="collection-header">
+                                                        <h6>Etudiants</h6>
+                                                    </li>
+                                                    {% for student in PtutNonValide.students %}
+                                                        <li class="collection-item">
+                                                            {{student.currentGroupe}}
+                                                            {{student.user.name|title}}
+                                                            {{student.user.surname|title}}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <div class="foot right-align">
+                                                <a href="{{path('teckmeb_ptut_validate', {'id' : PtutNonValide.id})}}" class="btn-flat waves-effect  ">Valider</a>
+                                                <a href="{{path('teckmeb_ptut_delete', {'id' : PtutNonValide.id})}}" class="btn-flat waves-effect  ">Refuser</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% if loop.last %}
+                                    </ul>
+                                {% endif %}
+                                {% else %}
+                                <div>
+                                    <span class="center-align">Vous n'avez pas de PTUT en attente</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col m7 s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Gestion des PTUTs</span>
+                        <table class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Tuteur</th>
+                                    <th>Intéragir</th>
+                                    <th>Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ptut in listPtut %}
+                                    <tr>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                                {{ptut.name}}</a>
+                                        </td>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                                {{ptut.teacher}}</a>
+                                        </td>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                                <i class="material-icons">add</i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="modal-trigger" href="#delete{{ptut.id}}">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <div class="modal" id="delete{{ptut.id}}">
+                                        <div class="modal-content">
+                                            <h4>Voulez-vous supprimer ce ptut ?</h4>
+                                            <p class="flow-text">
+                                                {{ptut.name}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{path('teckmeb_ptut_delete' , {'id' : ptut.id})}}" class="modal-close btn-flat">Oui</a>
+                                            <a class="modal-close btn-flat" href="#!">Non</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="3">Vous ne possédez pas de PTUTs</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>{% endif %}{% if is_granted('ROLE_ETUDIANT') %}
+<div class="row">
+    <div class="col m3 offset-m1 s12">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title left-align">PTUTs à valider</span>
+                        {% for PtutNonValide in listPtutNonValide %}
+                            {% if loop.first %}
+                                <ul class="collapsible">
+                                {% endif %}
+                                <li>
+                                    <div class="collapsible-header ">
+                                        {{PtutNonValide.name}}
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <div class="teacher">
+                                            <ul class="collection with-header">
+                                                <li class="collection-header">
+                                                    <h6>Professeur</h6>
+                                                </li>
+                                                <li class="collection-item">
+                                                    {{PtutNonValide.teacher}}</li>
+                                            </ul>
+                                            <div></div>
+                                        </div>
+                                        <div class="description">
+                                            <ul class="collection with-header">
+                                                <li class="collection-header">
+                                                    <h6>Description</h6>
+                                                </li>
+                                                <li class="collection-item">
+                                                    {{PtutNonValide.description}}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="etudiant">
+                                            <ul class="collection with-header">
+                                                <li class="collection-header">
+                                                    <h6>Etudiants</h6>
+                                                </li>
+                                                {% for student in PtutNonValide.students %}
+                                                    <li class="collection-item">
+                                                        {{student.currentGroupe}}
+                                                        {{student.user.name|title}}
+                                                        {{student.user.surname|title}}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% if loop.last %}
+                                </ul>
+                            {% endif %}
+                            {% else %}
+                            <div>
+                                <span class="center-align">Vous n'avez pas de PTUTs en attente</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col m7 s12">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Gestion des PTUTs</span>
+                <span class="card-title right">
+                    <a class="btn" href="{{path('teckmeb_ptut_create')}}">Proposer un PTUT</a>
+                </span>
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Tuteur</th>
+                            <th>Intéragir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ptut in listPtut %}
+                            <tr>
+                                <td>
+                                    <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                        {{ptut.name}}</a>
+                                </td>
+                                <td>
+                                    <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                        {{ptut.teacher}}</a>
+                                </td>
+                                <td>
+                                    <a class="" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id})}}">
+                                        <i class="material-icons">add</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3">Vous ne possédez pas de PTUTs</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}{% endblock %}

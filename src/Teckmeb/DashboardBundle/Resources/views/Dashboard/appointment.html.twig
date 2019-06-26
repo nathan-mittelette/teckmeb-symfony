@@ -1,0 +1,45 @@
+<div class="card hoverable">
+        <a class="black-text" href="{{path('teckmeb_ptut_homepage')}}">
+            <div class="card-content">
+                <span class="card-title">Rendez-vous à valider</span>
+                <table class="centered highlight">
+                    <thead>
+                        <th>Nom du Ptut</th>
+                        <th>Date</th>
+                        <th>Valider</th>
+                    </thead>
+                    <tbody>
+                        {% if appointement is defined %}
+                        {% for appoint in appointement %}
+                        <tr>
+                            <td>
+                                <a class="black-text" href="{{path('teckmeb_ptut_view' , {'id' : appoint.ptut.id })}}">
+                                    {{appoint.ptut.name}}</a>
+                            </td>
+                            <td>
+                                    <a class="black-text" href="{{path('teckmeb_ptut_view' , {'id' : appoint.ptut.id })}}">
+                                    {{appoint.date|date('d/m/Y')}} - {{appoint.date|date('H:i')}}</a>
+                            </td>
+                            <td>
+                                <a class="btn" href="{{path('teckmeb_ptut_valide_app' , {'id' : appoint.id })}}">
+                                    <i class="material-icons">check</i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3">Vous n'avez pas de rendez-vous
+                            <td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="3">Vous n'avez pas de rendez-vous
+                            <td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </a>
+    </div>

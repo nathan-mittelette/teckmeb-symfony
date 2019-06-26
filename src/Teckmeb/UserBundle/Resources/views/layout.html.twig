@@ -1,0 +1,21 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block script %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ parent ()}}
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ parent ()}}
+    {% endif %}
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    {% block fos_user_content %}{% endblock fos_user_content %}
+{% endblock %}

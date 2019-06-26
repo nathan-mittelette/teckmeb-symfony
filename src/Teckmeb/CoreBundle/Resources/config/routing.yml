@@ -1,0 +1,11 @@
+teckmeb_core_homepage:
+    path:     /ajoutD
+    defaults: { _controller: TeckmebCoreBundle:Core:index }
+    
+teckmeb_core_tmp:
+    path:    /tmp
+    defaults: { _controller: TeckmebCoreBundle:Core:tmp }
+
+teckmeb_core_pwd:
+    path:    /pwd/update/for/zoe
+    defaults: { _controller: TeckmebCoreBundle:Core:updatePwd }

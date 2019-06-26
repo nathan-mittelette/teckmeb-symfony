@@ -1,0 +1,20 @@
+<div class="card hoverable">
+    <a class="black-text" href="{{path('teckmeb_question_homepage')}}">
+        <div class="card-content">
+            <span class="card-title">Dernière question</span>
+            {% if question is defined and question is not null %}
+            <p>
+                <b>
+                    {{question.title}}</b>
+            </p>
+            <p>Posée à
+                {{question.teacher}}</p>
+        </div>
+        <div class="card-action">
+            <a href="{{path('teckmeb_question_view' , {'id' : question.id})}}">Répondre</a>
+            {% else %}
+            <p class="center-align">Vous ne possédez pas de questions</p>
+            {% endif %}
+        </div>
+    </a>
+</div>

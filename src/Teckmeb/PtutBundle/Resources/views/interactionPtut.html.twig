@@ -1,0 +1,79 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme form "TeckmebAdministrationBundle:Form:fields3.html.twig" %}
+{% block title %}
+PTUT - {% if Modifier %}Modification{% else %}Création{% endif %}
+{% endblock %}
+{% block script %}
+{{ parent()}}
+{% javascripts filter='?jsqueeze' 'assets/js/Ptut/create.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+{% block style %}
+{{ parent() }}
+{% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+{% endstylesheets %}
+{% endblock %}
+{% block body %}
+{{ parent() }}
+<main class="container">
+    <h4>{% if Modifier %}Modifier{% else %}Créer{% endif %} un PTUT</h4>
+    <div class="card">
+        {{form_start(form)}}
+        <div class="card-content">
+            {{ form_errors(form)}}
+            <div class="row">
+                {% if not Modifier %}
+                <div class="input-field col l4 m6 s12">
+                    {{form_row(form.teacher, { 'label': 'Professeur' })}}
+                </div>
+                {% endif %}
+                <div class="input-field col l4 m6 s12">
+                    {{form_row(form.name , { 'label': 'Nom du PTUT' })}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    {{form_row(form.description)}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l4 s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="autocomplete" id="autocomplete-input" type="text">
+                            <label for="autocomplete-input">Choisissez les étudiants</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l8 s12">
+                    <div>
+                        <table class="striped responsive-table centered" id="new">
+                            <thead>
+                                <th>Numéro étudiant</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Supprimer</th>
+                            </thead>
+                            <tbody class="center-align"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    {{form_row(form.students, {"label" : "Etudiants"})}}
+                </div>
+            </div>
+        </div>
+        <div class="card-action">
+            <button class="btn-flat waves-effect">Valider</button>
+            <a class="btn-flat waves-effect" href="{{ path('teckmeb_ptut_homepage') }}">Retour</a>
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

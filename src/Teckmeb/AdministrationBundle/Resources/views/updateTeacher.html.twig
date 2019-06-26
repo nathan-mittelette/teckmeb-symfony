@@ -1,0 +1,52 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4>Gestion de l'enseignant</h4>
+            {{ form_start(formDefineUser) }}
+            {{ form_errors(formDefineUser) }}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">
+                        {{teacher.user.name}}
+                        {{teacher.user.surname}}</span>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            {{ form_widget(formDefineUser.email) }}
+                            {{ form_label(formDefineUser.email, "Email du professeur") }}
+                        </div>
+                        <div class="input-field col s3">
+                            {{ form_widget(formDefineUser.username) }}
+                            {{ form_label(formDefineUser.username, "Username du professeur") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            {{ form_widget(formDefineUser.name) }}
+                            {{ form_label(formDefineUser.name, "Nom du professeur") }}
+                        </div>
+                        <div class="input-field col s3">
+                            {{ form_widget(formDefineUser.surname) }}
+                            {{ form_label(formDefineUser.surname, "Prénom du professeur") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect  ">Valider</button>
+                    <a class="btn-flat waves-effect  " href="{{ path('fos_user_resetting_check_email', {'username' : teacher.user.username})}}">Générer un nouveau mot de passe</a>
+                    <a class="btn-flat waves-effect" href="{{ path('teckmeb_administration_suivi_teacher', {'id' : teacher.id})}}">Modifier les sujets</a>
+                </div>
+            </div>
+            {{ form_rest(formDefineUser) }}
+            {{ form_end(formDefineUser) }}
+        </main>
+    {% endblock %}

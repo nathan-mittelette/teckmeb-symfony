@@ -1,0 +1,7 @@
+teckmeb_suivi_homepage:
+    path:     /Suivi
+    defaults: { _controller: TeckmebSuiviBundle:Suivi:home }
+    
+teckmeb_suivi_student:
+    path:     /Suivi/profile/{numStudent}
+    defaults: { _controller: TeckmebSuiviBundle:Suivi:profile }

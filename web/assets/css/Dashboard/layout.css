@@ -1,0 +1,10 @@
+
+.notification-badge {
+    position:relative;
+    padding:5px 9px;
+    background-color: #f44336;
+    color: #fff;
+    bottom: 15px;
+    left: 15px;
+    border-radius: 50%;
+    }

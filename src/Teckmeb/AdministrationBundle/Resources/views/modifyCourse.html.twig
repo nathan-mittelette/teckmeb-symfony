@@ -1,0 +1,52 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formModifyParcours "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion des parcours</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Modifier un parcours</span>
+                    <div class="row no-margin">
+                        {{ form_start(formModifyParcours) }}
+                        {{ form_errors(formModifyParcours) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formModifyParcours.creationYear) }}
+                            {{ form_label(formModifyParcours.creationYear, "Année d'entrée en application") }}
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formModifyParcours.courseType) }}
+                            {{ form_label(formModifyParcours.courseType, "Type de Semestre") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter des UE</span>
+                            {{ form_widget(formModifyParcours.teachingUnits) }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect">Valider</button>
+                        <a class="btn-flat waves-effect" href="{{ path('teckmeb_administration_homepage') }}">Retour</a>
+                    </div>
+                    {{ form_rest(formModifyParcours) }}
+                    {{ form_end(formModifyParcours) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

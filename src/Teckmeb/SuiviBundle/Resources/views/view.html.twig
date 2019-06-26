@@ -1,0 +1,118 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+Suivi - {{Student.user.name|title}} {{Student.user.surname|title}}
+{% endblock %}
+{% block script %}
+{{ parent() }}
+{% javascripts filter='?jsqueeze' 'assets/js/Suivi/view.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+{% block style %}
+{{ parent() }}
+<style>
+    .collapsible-header {
+        display: block;
+    }
+</style>
+{% endblock %}
+{% block body %}
+{{ parent() }}
+<main class="container">
+    <h4 class="header">
+        <a href="{{ path('teckmeb_suivi_homepage') }}" class="waves-effect  btn-small ">
+            <i class="material-icons ">keyboard_arrow_left</i>
+        </a>Profil de : {{Student.user.name|title}} {{Student.user.surname|title}}</h4>
+    {% for key, groupe in listOrderMark %}
+    <div class="card expandable">
+        <div class="card-content">
+            <div class="card-title">
+                {{key}}<span class='right'>
+                    <i class="material-icons medium">expand_more</i>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Absences</span>
+                            <p>{{groupe.Absences.numJus}} absence(s) justifiée(s)</p>
+                            <p>{{groupe.Absences.numNonJus}} absence(s) non justifiée(s)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="col s12 m12 card">
+                        <div class="card-content">
+                            <div class="card-title">Notes <span class='right'>Moyenne du semestre
+                                    {% if groupe.Notes.Moyenne is null %}Pas de notes{% else %}
+                                    {{groupe.Notes.Moyenne|round(3, 'common')}}
+                                    / 20{% endif %}
+                                </span>
+                            </div>
+                            <ul class="collapsible">
+                                {% for TU in groupe.Notes.TU %}
+                                <li class="collection-header">
+                                    <div class="row no-margin">
+                                        <div class="col s12">
+                                            <h5>
+                                                {{TU.teaching.teachingUnitCode}}
+                                                {{TU.teaching.teachingUnitName}}</h5>
+                                        </div>
+                                        <div class="col s12 m12 center-align">
+                                            <span class="right">Elève :
+                                                {% if TU.moyStudent is null %}Pas de notes{% else %}
+                                                {{TU.moyStudent|round(3, 'common')}}
+                                                / 20{% endif %}<br />Groupe :
+                                                {% if TU.moyGroupe is null %}Pas de notes{% else %}
+                                                {{TU.moyGroupe|round(3, 'common')}}
+                                                / 20{% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% for subject in TU.listSubject %}
+                                <li class="">
+                                    <div class="collapsible-header">
+                                        {{subject.subject.subjectFullName}}
+                                        <span class='right'>
+                                            {% if subject.moyStudent is null %}Pas de notes{% else %}Elève
+                                            {{subject.moyStudent|round(3, 'common')}}
+                                            / 20
+                                            | Groupe
+                                            {% if subject.moyGroupe is null %}Pas de notes{% else %}
+                                            {{subject.moyGroupe|round(3, 'common')}}
+                                            / 20{% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <ul class="collection">
+                                            {% for mark in subject.listMark %}
+                                            <li class="collection-item">
+                                                {{ mark.control.controlName }}
+                                                <span class="right">Elève
+                                                    {{mark.value}}
+                                                    /
+                                                    {{ mark.control.divisor }}
+                                                    | Groupe
+                                                    {{ mark.control.median }}
+                                                    /
+                                                    {{ mark.control.divisor }}</span>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}

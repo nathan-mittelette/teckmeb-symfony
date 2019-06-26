@@ -1,0 +1,4 @@
+     
+teckmeb_mark_view:
+    path:    /Mark/view
+    defaults: { _controller: TeckmebMarkBundle:Mark:view }

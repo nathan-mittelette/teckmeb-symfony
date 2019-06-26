@@ -1,0 +1,704 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formAjoutParcours "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% form_theme formAjoutTU "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% form_theme formAjoutModule "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% form_theme formAjoutSemestre "TeckmebAdministrationBundle:Form:fields2.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 
+    'assets/js/Administration/administration.js'
+    'assets/js/Administration/student.js'
+    'assets/js/Administration/teacher.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ include("TeckmebDashboardBundle::navbarExtend.html.twig") }}
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab">
+                    <a class="active" href="#Parcours">Parcours</a>
+                </li>
+                <li class="tab">
+                    <a href="#UE">UE</a>
+                </li>
+                <li class="tab">
+                    <a href="#Module">Module</a>
+                </li>
+                <li class="tab">
+                    <a href="#Semestre">Semestre</a>
+                </li>
+                <li class="tab">
+                    <a href="#Sujet">Sujet</a>
+                </li>
+                <li class="tab">
+                    <a href='#Groupe'>Groupe</a>
+                </li>
+                <li class="tab">
+                    <a href='#Student'>Etudiant</a>
+                </li>
+                <li class="tab">
+                    <a href='#Teacher'>Professeur</a>
+                </li>
+                <li class="tab">
+                    <a href='#Gestion'>Ajout étudiants via Excel</a>
+                </li>
+                <li class="tab">
+                    <a href="#BD">Nettoyer la BD</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        <div class="col s12" id="Parcours">
+            <h4 class="header">Gestion des parcours</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter un parcours</span>
+                    {{ form_start(formAjoutParcours) }}
+                    <div class="row no-margin">
+                        {{ form_errors(formAjoutParcours) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formAjoutParcours.creationYear) }}
+                            {{ form_label(formAjoutParcours.creationYear, "Année d'entrée en application") }}
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formAjoutParcours.courseType) }}
+                            {{ form_label(formAjoutParcours.courseType, "Type de semestre") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter les UE</span>
+                            {{ form_widget(formAjoutParcours.teachingUnits)}}
+                        </div>
+                    </div>
+                    <div calss="card-action">
+                        <button class="btn-flat waves-effect">Ajouter</button>
+                    </div>
+                    {{ form_rest(formAjoutParcours) }}
+                    {{ form_end(formAjoutParcours) }}
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier un parcours</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Type semestre</th>
+                                            <th>Année d'application</th>
+                                            <th>Modifier</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for course in listCourse %}
+                                            <tr>
+                                                <td>
+                                                    {{course.id}}</td>
+                                                <td>
+                                                    {{course.courseType.name}}</td>
+                                                <td>
+                                                    {{course.creationYear}}</td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_ue', {'id': course.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="UE">
+            <h4 class="header">Gestion des UE</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter une UE</span>
+                    {{ form_start(formAjoutTU) }}
+                    <div class="row no-margin">
+                        {{ form_errors(formAjoutTU) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formAjoutTU.teachingUnitCode) }}
+                            {{ form_label(formAjoutTU.teachingUnitCode, "Code de l'UE") }}
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formAjoutTU.creationYear) }}
+                            {{ form_label(formAjoutTU.creationYear, "Date de création") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            {{ form_widget(formAjoutTU.teachingUnitName) }}
+                            {{ form_label(formAjoutTU.teachingUnitName, "Nom de l'UE") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter les modules</span>
+                            {{ form_widget(formAjoutTU.modules) }}
+                        </div>
+                    </div>
+                    <div calss="card-action">
+                        <button class="btn-flat waves-effect">Ajouter</button>
+                    </div>
+                    {{ form_rest(formAjoutTU) }}
+                    {{ form_end(formAjoutTU) }}
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier une UE</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Modifier</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for teachingUnit in listTeachingUnit %}
+                                            <tr>
+                                                <td>
+                                                    {{teachingUnit.teachingUnitFullName}}</td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_tu', {'id': teachingUnit.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="Module">
+            <h4 class="header">Gestion des modules</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter un module</span>
+                    {{ form_start(formAjoutModule) }}
+                    <div class="row no-margin">
+                        {{ form_errors(formAjoutModule) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formAjoutModule.moduleCode) }}
+                            {{ form_label(formAjoutModule.moduleCode, "Code du module") }}
+                        </div>
+                        <div class="input-field col s12 l8">
+                            {{ form_widget(formAjoutModule.moduleName) }}
+                            {{ form_label(formAjoutModule.moduleName, "Nom du module") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter les sujets</span>
+                            {{ form_widget(formAjoutModule.subjects) }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect">Ajouter</button>
+                    </div>
+                    {{ form_rest(formAjoutModule) }}
+                    {{ form_end(formAjoutModule) }}
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier un module</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Modifier</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for module in listModule %}
+                                            <tr>
+                                                <td>
+                                                    {{module.moduleFullName}}</td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_module', {'id': module.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="Semestre">
+            <h4 class="header">Gestion des semestres</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter un semestre</span>
+                    {{ form_start(formAjoutSemestre) }}
+                    <div class="row">
+                        {{ form_errors(formAjoutSemestre) }}
+                        <div class="input-field col s6 m4 l2">
+                            {{ form_widget(formAjoutSemestre.schoolYear) }}
+                            <label>
+                                {{ form_label(formAjoutSemestre.schoolYear, "Année d'étude") }}</label>
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formAjoutSemestre.course) }}
+                            <label>
+                                {{ form_label(formAjoutSemestre.course, "Choix du parcours") }}</label>
+                        </div>
+                        <div class="input-field col s12 l1">
+                            <label>
+                                {{ form_widget(formAjoutSemestre.delay) }}
+                                <span>
+                                    {{ form_label(formAjoutSemestre.delay, "Décalé") }}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m6 l3">
+                            {{ form_row(formAjoutSemestre.beginDate) }}
+                        </div>
+                        <div class="input-field col s12 m6 l3">
+                            {{ form_row(formAjoutSemestre.endDate) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect">Ajouter</button>
+                </div>
+                {{ form_rest(formAjoutSemestre) }}
+                {{ form_end(formAjoutSemestre) }}
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier un semestre</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>Année scolaire</th>
+                                            <th>Type de semestre</th>
+                                            <th>Groupes</th>
+                                            <th>Modifier</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for semestre in listSemestre %}
+                                            <tr>
+                                                <td>
+                                                    {{semestre.schoolYear}}</td>
+                                                <td>
+                                                    {{semestre.course.courseType.name}}
+                                                    -
+                                                    {% if semestre.delay %}Décalé{% else %}Normal{% endif %}
+                                                </td>
+                                                <td>
+                                                    {% for groupe in semestre.groupes %}
+                                                        {{groupe.groupName.choixName}}
+                                                        {% if not loop.last %}
+                                                            -
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_semestre', {'id': semestre.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="Sujet">
+            <h4 class="header">Gestion des sujets</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter un sujet</span>
+                    {{ form_start(formAjoutSubject) }}
+                    <div class="row">
+                        {{ form_errors(formAjoutSubject) }}
+                        <div class="input-field col s6 m4 l2">
+                            {{ form_widget(formAjoutSubject.subjectCode) }}
+                            {{ form_label(formAjoutSubject.subjectCode, "Code du sujet") }}
+                        </div>
+                        <div class="input-field col s12 l2">
+                            {{ form_widget(formAjoutSubject.subjectCoefficient) }}
+                            {{ form_label(formAjoutSubject.subjectCoefficient, "Coefficient du sujet") }}
+                        </div>
+                        <div class="input-field col s12 l5">
+                            {{ form_label(formAjoutSubject.subjectName, "Nom du sujet") }}
+                            {{ form_widget(formAjoutSubject.subjectName) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect">Ajouter</button>
+                </div>
+                {{ form_rest(formAjoutSubject) }}
+                {{ form_end(formAjoutSubject) }}
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier un sujet</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom</th>
+                                            <th>Coefficient</th>
+                                            <th>Modifier</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for subject in listSubject %}
+                                            <tr>
+                                                <td>
+                                                    {{subject.subjectCode}}</td>
+                                                <td>
+                                                    {{subject.subjectName}}</td>
+                                                <td>
+                                                    {{subject.subjectCoefficient}}</td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_subject', {'id': subject.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="Groupe">
+            <h4 class="header">Gestion des groupes</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ajouter un groupe</span>
+                    {{ form_start(formAjoutGroupe) }}
+                    <div class="row">
+                        {{ form_errors(formAjoutGroupe) }}
+                        <div class="input-field col s6 m4 l2">
+                            {{ form_widget(formAjoutGroupe.groupName) }}
+                            {{ form_label(formAjoutGroupe.groupName, "Nom du groupe") }}
+                        </div>
+                        <div class="input-field col s12 l4">
+                            {{ form_widget(formAjoutGroupe.semestre) }}
+                            {{ form_label(formAjoutGroupe.semestre, "Choix du semestre") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect">Ajouter</button>
+                </div>
+                {{ form_rest(formAjoutGroupe) }}
+                {{ form_end(formAjoutGroupe) }}
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Modifier un groupe</span>
+                        <div class="row no-margin">
+                            <div class="table-wrapper">
+                                <table class="highlight centered responsive-table" id="controls-table">
+                                    <thead class="small-caps">
+                                        <tr>
+                                            <th>Nom du groupe</th>
+                                            <th>Semestre</th>
+                                            <th>Edit</th>
+                                            <th>Supprimer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for groupe in listGroupe %}
+                                            <tr>
+                                                <td>
+                                                    {{groupe.groupFullName}}</td>
+                                                <td>
+                                                    {% if groupe.semestre is not null %}
+                                                        {{groupe.semestre.semestreFullName}}{% endif %}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_groupe', {'id': groupe.id}) }}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a class="modal-trigger" href="#groupe{{groupe.id}}">
+                                                        <i class="material-icons">delete</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div class="modal" id="groupe{{groupe.id}}">
+                                                <div class="modal-content">
+                                                    <h4>Voulez-vous vraiment supprimer ce groupe ?</h4>
+                                                    <p>
+                                                        {{groupe.groupFullName}}{% if groupe.semestre is not null %}
+                                                            du
+                                                            {{groupe.semestre.semestreFullName}}{% endif %}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="{{ path('teckmeb_administration_delete_groupe', {'id' : groupe.id}) }}" class="btn-flat">Oui</a>
+                                                    <a class="modal-close btn-flat">Non</a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12" id="Student">
+            <h4 class="header">Gestion des étudiants</h4>
+            <div class="row">
+                <div class="col s9">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="autocomplete1" id="autocomplete-input1" type="text">
+                                <label for="autocomplete-input1">Rechercher un étudiant ..</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s3">
+                        <a class="btn-flat waves-effect modal-trigger" href="#modal1" id="modifyButton">Ajouter un étudiant</a>
+                    </div>
+                </div>
+                <div class="section" id="list-student">
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="centered striped" id="tableStudent">
+                                <thead>
+                                    <th>Numéro étudiant</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                </thead>
+                                <tbody>
+                                    {% for student in listStudent %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('teckmeb_administration_suivi_student', {'id' : student.id})}}">
+                                                    {{student.numStudent}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('teckmeb_administration_suivi_student', {'id' : student.id})}}">
+                                                    {{student.user.name|title}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('teckmeb_administration_suivi_student', {'id' : student.id})}}">
+                                                    {{student.user.surname|title}}</a>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="3">Pas d'étudiants</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Structure -->
+                <div class="modal" id="modal1">
+                    <div class="modal-content">
+                        <h4>Création d'un étudiant</h4>
+                        {{ form_start(formCreateUser) }}
+                        {{ form_errors(formCreateUser) }}
+                        <div class="row">
+                            <div class="input-field col s6 m4 l6">
+                                {{ form_row(formCreateUser.surname) }}
+                            </div>
+                            <div class="input-field col s6 m4 l6">
+                                {{ form_row(formCreateUser.name) }}
+                            </div>
+                            <div class="input-field col s6 m4 l6">
+                                {{ form_row(formCreateUser.username) }}
+                            </div>
+                            <div class="input-field col s6 m4 l6">
+                                {{ form_row(formCreateUser.email) }}
+                            </div>
+                            <div class="input-field col s6 m4 l12">
+                                {{ form_row(formCreateUser.plainPassword) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect ">Ajouter</button>
+                        <a class="btn-flat modal-close">Retour</a>
+                    </div>
+                    {{ form_rest(formCreateUser) }}
+                    {{ form_end(formCreateUser) }}
+                </div>
+            </div>
+            <div class="col s12" id="Teacher">
+                <h4 class="header">Gestion des professeurs</h4>
+                <div class="row">
+                    <div class="col s9">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input class="autocomplete2" id="autocomplete-input2" type="text">
+                                    <label for="autocomplete-input2">Rechercher un professeur ...</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s3">
+                            <a class="btn-flat waves-effect modal-trigger" href="#modal2" id="modifyButton">Ajouter un professeur</a>
+                        </div>
+                    </div>
+                    <div class="section" id="list-teacher">
+                        <div class="row">
+                            <div class="col s12">
+                                <table class="centered striped" id="tableTeacher">
+                                    <thead>
+                                        <th>Id</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for teacher in listTeacher %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_teacher', {'id' : teacher.id})}}">
+                                                        {{teacher.id}}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_teacher', {'id' : teacher.id})}}">
+                                                        {{teacher.user.name|title}}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('teckmeb_administration_modify_teacher', {'id' : teacher.id})}}">
+                                                        {{teacher.user.surname|title}}</a>
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="2">Pas de professeurs</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Structure -->
+                    <div class="modal" id="modal2">
+                        <div class="modal-content">
+                            <h4>Création d'un professeur</h4>
+                            {{ form_start(formCreateTeacher) }}
+                            {{ form_errors(formCreateTeacher) }}
+                            <div clas="row">
+                                <div class="input-field col s6 m6 l6">
+                                    {{ form_row(formCreateTeacher.surname) }}
+                                </div>
+                                <div class="input-field col s6 m6 l6">
+                                    {{ form_row(formCreateTeacher.name) }}
+                                </div>
+                                <div class="input-field col s6 m6 l6">
+                                    {{ form_row(formCreateTeacher.username) }}
+                                </div>
+                                <div class="input-field col s6 m6 l6">
+                                    {{ form_row(formCreateTeacher.email) }}
+                                </div>
+                                <div class="input-field col s6 m12 l12">
+                                    {{ form_row(formCreateTeacher.plainPassword) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-flat waves-effect ">Ajouter</button>
+                            <a class="btn-flat modal-close">Retour</a>
+                        </div>
+                        {{ form_rest(formCreateTeacher) }}
+                        {{ form_end(formCreateTeacher) }}
+                    </div>
+                </div>
+                <div class="col s12" id="Gestion">
+                    <h4>Ajout via Excel</h4>
+                    <!-- Modal Trigger -->
+                    <a class="btn-flat waves-effect modal-trigger" href="#modal3">Comment faire ?</a>
+                    <!-- Modal Structure -->
+                    <div class="modal" id="modal3">
+                        <div class="modal-content">
+                            <h4>Comment faire ?</h4>
+                            <p>Dans un premier temps, vous devez créer le semestre auquel les étudiants et groupes vont appartenir (si le semestre n'existe pas).</p>
+                            <p>Pour cela, il suffit d'aller dans "Administration" et "Semestre" et de remplir les formulaires en début de page.</p>
+                            <p>Une fois que cela est fait, vous devez ajouter votre fichier Excel dans la barre en bas en cliquant dessus, puis cliquer sur "Valider".</p>
+                            <a href="{{asset('assets/excel/Etudiants.xlsx')}}">Cliquez ici pour télécharger un fichier Excel d'exemple</a>
+                        </div>
+                    </div>
+                    <form action="{{path('teckmeb_administration_gestion')}}" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="file-field input-field col s4">
+                                <div class="btn ">
+                                    <span>File</span>
+                                    <input id="excel" name="excel" type="file"></div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text"></div>
+                                    </div>
+                                    <div class="input-field col s2">
+                                        <button class="btn-flat waves-effect">Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col s12" id="BD">
+                            <h4>Nettoyer la base de données</h4>
+                            <p>Cette fonctionnalité permet de supprimer de la base de données les données qui ne sont plus utilisées</p>
+                            <p>Pour cela il suffit d'appuyer sur le bouton ci-dessous : il vous sera d'abord affiché un récapitulatif avant la suppression définitive des données</p>
+                            <a class="btn" href="{{path('teckmeb_administration_removeBD_affichage')}}">Nettoyer la base de données</a>
+                        </div>
+                    </main>
+                {% endblock %}
+            

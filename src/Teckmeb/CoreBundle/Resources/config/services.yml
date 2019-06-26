@@ -1,0 +1,42 @@
+services:
+#    oc_core.example:
+#        class: OC\CoreBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+  teckmeb_core.check.right:
+    class: Teckmeb\CoreBundle\Check\CheckService
+    arguments:
+      - "@request_stack"
+      - "@doctrine.orm.entity_manager"
+    
+  teckmeb_core.check.right.listener:
+    class: Teckmeb\CoreBundle\Check\CheckListener
+    arguments:
+      - "@teckmeb_core.check.right"
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: processCheck }
+
+  teckmeb_core.navbar_array.navbar_extension:
+    class: Teckmeb\CoreBundle\NavbarArray\NavbarExtension
+    arguments:
+      - "@teckmeb_core.navbar_array.navbar_service"
+    tags:
+      -  { name: twig.extension }
+
+  teckmeb_core.navbar_array.navbar_service:
+    class: Teckmeb\CoreBundle\NavbarArray\NavbarService
+    arguments:
+      - "@teckmeb_core.check.right"
+
+  teckmeb_core.mailService:
+    class: Teckmeb\CoreBundle\Services\MailService
+    arguments:
+      - "@mailer"  
+      - "@templating"
+      - '%mailer_user%'
+      - "@teckmeb_core.passwordService"
+      - "@fos_user.user_manager"
+  
+  teckmeb_core.passwordService:
+    class: Teckmeb\CoreBundle\Services\PasswordService
+

@@ -1,0 +1,38 @@
+teckmeb_process_allStudent:
+    path:     /Process/GetAllStudent
+    defaults: { _controller: TeckmebProcessBundle:Process:allStudent }
+
+teckmeb_process_allTeacher:
+    path:    /Process/GetAllTeacher
+    defaults: { _controller: TeckmebProcessBundle:Process:allTeacher }
+    
+teckmeb_process_allSubject:
+    path:    /Process/GetAllSubject/{id}
+    defaults: { _controller: TeckmebProcessBundle:Process:allSubject }
+    requirements:
+        id: \d+
+        
+teckmeb_process_valideEdu:
+    path:    /Process/ValideEdu/{idSubject}/{idGroupe}/{idTeacher}
+    defaults: { _controller: TeckmebProcessBundle:Process:valideEdu }
+    requirements:
+        idSubject: \d+
+        idGroupe: \d+
+        idTeacher: \d+
+        
+teckmeb_process_allStudentGroupe:
+    path:    /Process/GetAllStudentGroupe
+    defaults: { _controller: TeckmebProcessBundle:Process:getAllStudentGroupe }
+    
+teckmeb_process_ajout_absence:
+    path:    /Process/AjoutAbsence/{justified}/{date}/{absenceId}/{studentId}/{buttonMatin}/{buttonApres}
+    defaults: { _controller: TeckmebProcessBundle:Process:ajoutAbsence}
+    requirements:
+        absenceId: \d+
+        studentId: \d+
+        buttonMatin: \d
+        buttonApres: \d
+        
+teckmeb_process_getFlash:
+    path:    /Process/GetFlash
+    defaults: { _controller: TeckmebProcessBundle:Process:getFlash}

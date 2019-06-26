@@ -1,0 +1,11 @@
+teckmeb_notification_get:
+    path:    /api/notification/get
+    defaults: { _controller : TeckmebNotificationBundle:Notification:get }
+    
+teckmeb_notification_post:
+    path:    /api/notification/post
+    defaults: { _controller : TeckmebNotificationBundle:Notification:post }
+    
+teckmeb_notification_create:
+    path:    /notification/create
+    defaults: { _controller : TeckmebNotificationBundle:Notification:create }

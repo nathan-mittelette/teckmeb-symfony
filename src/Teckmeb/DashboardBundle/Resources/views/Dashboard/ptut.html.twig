@@ -1,0 +1,43 @@
+<div class="card hoverable">
+    <a class="black-text" href="{{path('teckmeb_ptut_homepage')}}">
+        <div class="card-content">
+            <span class="card-title">PTUT à valider</span>
+            <table class="centered highlight">
+                <thead>
+                    <th>Nom</th>
+                </thead>
+                <tbody>
+                    {% if listptutValide is defined %}
+                    {% for ptut in listptutValide %}
+                    <tr>
+                        <td>
+                            <a class="black-text" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id })}}">
+                                {{ptut.name}}</a>
+                        </td>
+                        <td>
+                            <a class="black-text" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id })}}">
+                                {{ptut.teacher}}</a>
+                        </td>
+                        <td>
+                            <a class="black-text" href="{{path('teckmeb_ptut_view' , {'id' : ptut.id })}}">
+                                {% if ptut.valide %}Oui{% else %}Non{% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3">Vous n'avez pas encore de ptut
+                        <td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">Vous n'avez pas encore de ptut
+                        <td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </a>
+</div>

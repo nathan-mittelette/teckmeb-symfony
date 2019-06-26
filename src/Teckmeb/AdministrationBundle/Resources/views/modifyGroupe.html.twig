@@ -1,0 +1,118 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formModifyGroupe "TeckmebAdministrationBundle:Form:fields3.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 
+    'assets/js/Administration/subject.js'
+    'assets/js/Administration/administration.js'
+    'assets/js/Administration/groupe.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/modifyGroupe.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion des groupes</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Modifier un groupe</span>
+                    <div class="right btn-flat">
+                        <a href="{{path('teckmeb_administration_ressource', {'id' : groupe.id})}}">Cliquez ici pour ajouter des professeurs via l'EDT</a>
+                    </div>
+                    {{ form_start(formModifyGroupe) }}
+                    <div class="row">
+                        {{ form_errors(formModifyGroupe) }}
+                        <div class="input-field col s6 m4 l2">
+                            {{ form_widget(formModifyGroupe.groupName) }}
+                            {{ form_label(formModifyGroupe.groupName, "Nom du groupe") }}
+                        </div>
+                        <div class="input-field col s12 l4">
+                            {{ form_widget(formModifyGroupe.semestre) }}
+                            {{ form_label(formModifyGroupe.semestre, "Choix du semestre") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l12">
+                            <h5>Etudiant du groupe</h5>
+                            <table class="centered striped" id="tableGroupe">
+                                <thead>
+                                    <th>Numéro</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Supprimer</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <span class="card-title">Ajouter des étudiants</span>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="autocomplete" id="autocomplete-input" type="text">
+                                <label for="autocomplete-input">Rechercher un étudiant ...</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 l12">
+                                <h5>Etudiant</h5>
+                                {{ form_widget(formModifyGroupe.students) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect  ">Valider</button>
+                        <a class="btn-flat waves-effect  " href="{{ path('teckmeb_administration_homepage') }}">Retour</a>
+                    </div>
+                    {{ form_rest(formModifyGroupe) }}
+                    {{ form_end(formModifyGroupe) }}
+                </div>
+                <div class="Subject">
+                    <div class="input-field col s12">
+                        <table class="striped centered">
+                            <thead>
+                                <th>Nom du sujet</th>
+                                <th>Professeur</th>
+                                <th>Déjà validé</th>
+                                <th>Valider</th>
+                            </thead>
+                            <tbody>
+                                {% for Subject in listSubject %}
+                                    <tr>
+                                        <td>
+                                            {{Subject.Subject.subjectName}}</td>
+                                        <td>
+                                            <select id="select{{Subject.Subject.id}}">
+                                                {% for teacher in Subject.Teachers %}
+                                                    <option value="{{teacher.id}}" {%if Subject.Teacher != null and Subject.Teacher.id == teacher.id%} selected {% endif %}>{{teacher}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox" id="input{{Subject.Subject.id}}" {% if Subject.check %} checked {% endif %}>
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <button class="btn-flat waves-effect  " onclick="valider({{Subject.Subject.id}}, {{groupe.id}})">Valider</button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            {% endblock %}
+        

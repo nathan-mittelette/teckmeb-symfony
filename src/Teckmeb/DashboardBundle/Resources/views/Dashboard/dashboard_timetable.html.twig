@@ -1,0 +1,46 @@
+<div class="card hoverable">
+    <a href="{{path('teckmeb_time_table_view')}}">
+        <div class="card-content black-text">
+            <span class="card-title">Emploi du temps</span>
+            {% if tabDays is defined and tabDays is not null %}
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>{{tabDays}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tabDate is empty %}
+                    <tr>
+                        <td>Pas cours</td>
+                    </tr>
+                    {% else %}
+                    {% for now in tabHoraire %}
+                    <tr>
+                        {% for Date, v in tabDate %}
+                        {% if tabDate[Date][now] is defined %}
+                        <td rowspan='{{tabDate[Date][now].DureeNum}}'
+                            style='background-color:{{tabDate[Date][now].Couleur}};height :{{tabDate[Date][now].DureeNum * 25}}px;width:275px;border-bottom-style:hidden;'>
+                            <p style="font-size:9pt;">
+                                {{tabDate[Date][now].Cours}}<br>
+                                {{tabDate[Date][now].Description}}<br>
+                                {{tabDate[Date][now].Location}}<br>
+                                {{tabDate[Date][now].Groupe}}</p>
+                        </td>
+                        {% else %}
+                        {% if tabDispo[Date][now] is not defined %}
+                        <td rowspan="1" style="width:275px;height:25px;border-bottom-style:hidden;"></td>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>L'emploi du temps n'a pas été enregistré</p>
+            {% endif %}
+        </div>
+    </a>
+</div>

@@ -1,0 +1,6 @@
+services:
+
+  teckmeb_question.questionService:
+    class: Teckmeb\QuestionBundle\Services\QuestionService
+    arguments:
+    - "@doctrine.orm.entity_manager"

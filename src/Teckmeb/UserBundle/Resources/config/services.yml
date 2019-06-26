@@ -1,0 +1,4 @@
+services:
+#    teckmeb_user.example:
+#        class: Teckmeb\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

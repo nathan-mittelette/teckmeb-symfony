@@ -1,0 +1,44 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formAddSubject "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">
+                Suivi de
+                {{ Teacher.user.name|title }}
+                {{ Teacher.user.surname|title }}</h4>
+            <div class="card">
+                <div class="card-content">
+                    {{ form_start(formAddSubject) }}
+                    {{ form_errors(formAddSubject) }}
+                    <span class="card-title">Gestion des sujets du professeur</span>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            {{ form_widget(formAddSubject.subjects) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-flat waves-effect  ">Valider</button>
+                    <a class="btn-flat waves-effect  " href="{{ path('teckmeb_administration_homepage') }}">Retour</a>
+                </div>
+                {{ form_rest(formAddSubject) }}
+                {{ form_end(formAddSubject) }}
+            </div>
+        </main>
+    {% endblock %}

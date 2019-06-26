@@ -1,0 +1,171 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% if formQuestion is defined %}
+    {% form_theme formQuestion "TeckmebAdministrationBundle:Form:fields3.html.twig" %}
+{% endif %}
+{% block title %}
+    Questions
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Question/questionStudent.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Questions</h4>
+            {% if is_granted('ROLE_ETUDIANT') %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Vos questions</span>
+                        <span class="card-title right-align">
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">
+                                Poser une question
+                            </a>
+                        </span>
+                        <table class="striped centered">
+                            <thead>
+                                <th>Intitulé</th>
+                                <th>Professeur</th>
+                            </thead>
+                            <tbody>
+                                {% for question in listQuestion %}
+                                    <tr>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {{question.title}}</a>
+                                        </td>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {{question.teacher.user.name|title}}
+                                                {{question.teacher.user.surname|title}}</a>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="2">Vous ne possédez pas de questions</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal" id="modal1">
+                    <div class="modal-content">
+                        <span class="modal-title">Poser une question</span>
+                        {{ form_start(formQuestion) }}
+                        {{ form_errors(formQuestion) }}
+                        <div class="row">
+                            <div class="input-field">
+                                {{ form_widget(formQuestion.title) }}
+                                {{ form_label(formQuestion.title, "Titre") }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field">
+                                {{ form_widget(formQuestion.content) }}
+                                {{ form_label(formQuestion.content, "Contenu") }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col l3 m6 s12">
+                                {{ form_widget(formQuestion.teacher) }}
+                                {{ form_label(formQuestion.teacher, "Choisissez un professeur") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect  ">Valider</button>
+                        <a class="btn-flat modal-close">Retour</a>
+                    </div>
+                    {{ form_rest(formQuestion) }}
+                    {{ form_end(formQuestion) }}
+                </div>
+                {% elseif is_granted('ROLE_TEACHER') %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Vos questions</span>
+                        <table class="striped centered responsive-table">
+                            <thead>
+                                <th>Intitulé</th>
+                                <th>Etudiant</th>
+                                <th>Groupe</th>
+                                <th>
+                                    <a class=" tooltipped" data-position="top" data-tooltip="Cliquez pour changer la visibilité">Visibilité</a>
+                                </th>
+                                <th>Supprimer</th>
+                            </thead>
+                            <tbody>
+                                {% for question in listQuestion %}
+                                    <tr>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {{question.title}}</a>
+                                        </td>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {{question.student.user.name|title}}
+                                                {{question.student.user.surname|title}}</a>
+                                        </td>
+                                        <td>
+                                            <a class="" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {{question.groupe}}</a>
+                                        </td>
+                                        <td>
+                                            <a data-target="visible{{question.id}}" class=" tooltipped modal-trigger" data-position="top" data-tooltip="Rendre {% if question.public %}privée{% else %}publique{% endif %}" href="{{path('teckmeb_question_view', {'id' : question.id})}}">
+                                                {% if question.public %}Publique{% else %}Privée{% endif %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="modal-trigger" href="#delete{{question.id}}">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <div class="modal" id="delete{{question.id}}">
+                                        <div class="modal-content">
+                                            <h4>Voulez-vous supprimer cette question ?</h4>
+                                            <p>Titre :
+                                                {{question.title}}</p>
+                                            <p>Étudiant :
+                                                {{question.student.user.name|title}}
+                                                {{question.student.user.surname|title}}</p>
+                                            <p>Groupe :
+                                                {{question.groupe}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{path('teckmeb_question_delete', {'id' : question.id})}}" class="modal-close waves-effect btn-flat">Oui</a>
+                                            <a class="modal-close waves-effect btn-flat">Non</a>
+                                        </div>
+                                    </div>
+                                    <div class="modal" id="visible{{question.id}}">
+                                        <div class="modal-content">
+                                            <h4>Voulez-vous vraiment rendre cette question
+                                                {% if question.public %}privée{% else %}publique{% endif %}
+                                                ?</h4>
+                                            <p>Titre :
+                                                {{question.title}}</p>
+                                            <p>Étudiant :
+                                                {{question.student.user.name|title}}
+                                                {{question.student.user.surname|title}}</p>
+                                            <p>Groupe :
+                                                {{question.groupe}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{path('teckmeb_question_modify', {'id' : question.id})}}" class="modal-close waves-effect btn-flat  ">Oui</a>
+                                            <a class="modal-close waves-effect btn-flat  ">Non</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5">Vous n'avez pas de questions</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </main>
+    {% endblock %}

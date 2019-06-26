@@ -1,0 +1,6 @@
+services:
+
+  teckmeb_control.control.check:
+    class: Teckmeb\ControlBundle\ControlCheck\ControlCheckService
+    arguments:
+      - "@doctrine.orm.entity_manager"

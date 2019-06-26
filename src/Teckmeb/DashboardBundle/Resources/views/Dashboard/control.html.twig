@@ -1,0 +1,26 @@
+<div class="card hoverable">
+    <a class="black-text" href="{{path('teckmeb_control_homepage')}}">
+        <div class="card-content">
+            <span class="card-title">Controles</span>
+            <div class="row">
+                {% if listControl is defined %}
+                    {% for control in listControl %}
+                        <div class="col s12 m6 l6">
+                            <div class="card-panel">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        {{control.controlName}}
+                                    </span>
+                                    <p>{% if control.education is not null %}{{control.education.groupe}}{% else %}{{control.promo.semestre}}{% endif %}</p>
+                                    <p>{{control.controlDate|date('d/m/Y')}} - {{control.controlDate|date('H:i')}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="center-align">Vous n'avez pas de control</p>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>

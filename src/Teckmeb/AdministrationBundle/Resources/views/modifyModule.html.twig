@@ -1,0 +1,52 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% form_theme formModifyModule "TeckmebAdministrationBundle:Form:fields.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion des modules</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Modifier un module</span>
+                    <div class="row no-margin">
+                        {{ form_start(formModifyModule) }}
+                        {{ form_errors(formModifyModule) }}
+                        <div class="input-field col s6 m4 l3">
+                            {{ form_widget(formModifyModule.moduleCode) }}
+                            {{ form_label(formModifyModule.moduleCode, "Code du module") }}
+                        </div>
+                        <div class="input-field col s12 l8">
+                            {{ form_widget(formModifyModule.moduleName) }}
+                            {{ form_label(formModifyModule.moduleName, "Nom du module") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l8">
+                            <span class="card-title">Ajouter des sujets</span>
+                            {{ form_widget(formModifyModule.subjects) }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect  ">Valider</button>
+                        <a class="btn-flat waves-effect  " href="{{ path('teckmeb_administration_homepage') }}">Retour</a>
+                    </div>
+                    {{ form_rest(formModifyModule) }}
+                    {{ form_end(formModifyModule) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

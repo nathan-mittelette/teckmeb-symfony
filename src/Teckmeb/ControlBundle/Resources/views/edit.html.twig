@@ -1,0 +1,49 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Contrôles
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Control/edit.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Editer</h4>
+            <div class="card  ">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12 m6 l4">
+                            {{ form_row(form.controlDate) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 l6">
+                            {{ form_widget(form.controlName) }}
+                            {{ form_label(form.controlName, "Libellé") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6 m4 l1">
+                            {{ form_widget(form.coefficient) }}
+                            {{ form_label(form.coefficient, "Coefficient") }}
+                        </div>
+                        <div class="input-field col s6 m4 l1">
+                            {{ form_widget(form.divisor) }}
+                            {{ form_label(form.divisor, "Diviseur") }}
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-flat waves-effect  text-" type="submit">Editer</button>
+                        <a class="btn-flat waves-effect  text-" href="{{ path('teckmeb_control_homepage') }}">Annuler</a>
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

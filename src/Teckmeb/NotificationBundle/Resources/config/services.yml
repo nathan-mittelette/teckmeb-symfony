@@ -1,0 +1,6 @@
+services:
+
+  teckmeb_notification.notification:
+    class: Teckmeb\NotificationBundle\NotificationService\NotificationService
+    arguments:
+      - "@doctrine.orm.entity_manager"

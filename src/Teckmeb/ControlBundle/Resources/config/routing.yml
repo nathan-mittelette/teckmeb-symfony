@@ -1,0 +1,52 @@
+teckmeb_control_homepage:
+    path:     /Control
+    defaults: { _controller: TeckmebControlBundle:Control:index }
+
+teckmeb_control_add:
+    path:    /Control/add
+    defaults: { _controller: TeckmebControlBundle:Control:add }
+
+teckmeb_control_addPromo:
+    path:    /Control/addPromo
+    defaults: { _controller: TeckmebControlBundle:Control:addPromo }
+    
+teckmeb_control_edit:
+    path:    /Control/edit/{id}
+    defaults: { _controller: TeckmebControlBundle:Control:edit }
+    requirements:
+        id: \d+
+teckmeb_control_delete:
+    path:    /Control/delete/{id}
+    defaults: { _controller: TeckmebControlBundle:Control:delete }
+    requirements:
+        id: \d+
+
+teckmeb_mark_add:
+    path:    /Control/addExcel/{id}
+    defaults: { _controller: TeckmebControlBundle:MarkExcel:addExcel}
+    requirements:
+        id: \d+
+
+teckmeb_mark_edit_excel:
+    path:    /Control/addExcel/view/{id}
+    defaults: { _controller: TeckmebControlBundle:MarkExcel:viewExcel}
+    requirements:
+        id: \d+
+
+teckmeb_mark_valide_excel:
+    path:    /Control/addExcel/add/{id}
+    defaults: { _controller: TeckmebControlBundle:MarkExcel:ajoutMark }
+    requirements:
+        id: \d+
+
+teckmeb_mark_get_excel:
+    path:    /Control/addExcel/get/{id}
+    defaults: { _controller: TeckmebControlBundle:MarkExcel:getExcel }
+    requirements:
+        id: \d+
+
+teckmeb_mark_edit:
+    path:     /Control/Mark/edit/{id}
+    defaults: { _controller: TeckmebControlBundle:Control:editMark }
+    requirements:
+        id: \d+

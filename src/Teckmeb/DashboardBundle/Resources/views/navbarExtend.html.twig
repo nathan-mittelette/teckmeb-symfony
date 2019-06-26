@@ -1,0 +1,95 @@
+{% set liens = getNavbarArray(app.user) %}
+<ul class="dropdown-content" id="comp-menu">
+    <li>
+        <a href="{{ path('fos_user_change_password')}}" class="black-text">
+            <div>
+                {% if is_granted('ROLE_SECRETARIAT') %}
+                    {{ app.user.username|title }}
+                {% else %}
+                    {{ app.user.name|title }}
+                    {{ app.user.surname|title }}
+                {% endif %}
+            </div>
+        </a>
+    </li>
+    <li class="divider"></li>
+    <li class="small-caps ">
+        <a href="{{ path('fos_user_security_logout')}}">
+            <span class="">Déconnexion</span>
+        </a>
+    </li>
+</ul>
+<ul class="dropdown-content" id="comp-notification"></ul>
+<ul class="sidenav" id="mobile-demo">
+    {% for ligne in liens.0 %}
+        <li {% if loop.index0 == liens.1 %} class="active" {% endif %}>
+            <a href="{{path(ligne.nomRoute)}}">{{ligne.nomNavbar}}</a>
+        </li>
+    {% endfor %}
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header">
+                    <i class="material-icons">arrow_drop_down</i>Notification<span class="badge" id="sideNavNotification"></span>
+                </a>
+                <div class="collapsible-body">
+                    <ul id="sideNavList"></ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header">
+                    <i class="material-icons">arrow_drop_down</i>Utilisateur</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li>
+                            <a href="{{ path('fos_user_change_password')}}" class="">
+                                <div>
+                                    {% if is_granted('ROLE_SECRETARIAT') %}
+                                        {{ app.user.username|title }}
+                                    {% else %}
+                                        {{ app.user.name|title }}
+                                        {{ app.user.surname|title }}
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="small-caps ">
+                            <a href="{{ path('fos_user_security_logout')}}">
+                                <span class="">Déconnexion</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+<nav class="nav-extended">
+    <div class="nav-wrapper">
+        <a href="{{ path('teckmeb_dashboard_homepage') }}" class="brand-logo">Teckmeb</a>
+        <a class="sidenav-trigger" data-target="mobile-demo" href="#">
+            <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down" id="nav-mobile">
+            {% for ligne in liens.0 %}
+                <li {% if loop.index0 == liens.1 %} class="active" {% endif %}>
+                    <a href="{{path(ligne.nomRoute)}}">{{ligne.nomNavbar}}</a>
+                </li>
+            {% endfor %}
+            <li>
+                <a class="dropdown-button" data-beloworigin="true" data-constrainwidth="false" data-target="comp-notification" href="#" id="container-notification" onclick="retireVu()">
+                    <i class="material-icons notif" id="icon-notification">notifications_none</i>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-button" data-beloworigin="true" data-constrainwidth="false" data-target="comp-menu" hover="true" href="#">
+                    <i class="material-icons">account_circle</i>
+                </a>
+            </li>
+        </ul>
+    </div>

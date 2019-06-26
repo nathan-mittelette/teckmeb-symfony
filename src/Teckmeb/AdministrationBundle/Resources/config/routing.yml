@@ -1,0 +1,148 @@
+teckmeb_administration_homepage:
+    path:     /administration
+    defaults: { _controller: TeckmebAdministrationBundle:Administration:home }
+    
+teckmeb_administration_modify_ue:
+    path:    /administration/modifyUE/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Course:modifyCourse}
+    requirements:
+        id: \d+
+        
+# Refaire dans le controller        
+teckmeb_administration_delete_course:
+    path:    /administration/deleteCourse/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Course:deleteCourse}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_modify_tu:
+    path:    /administration/modifyTU/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:TU:modifyTU}
+    requirements:
+        id: \d+
+
+# N'existe pas dans le controller        
+teckmeb_administration_delete_tu:
+    path:    /administration/deleteTU/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:TU:deleteTU}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_modify_module:
+    path:    /administration/modifyModule/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:ModuleAdministration:modifyModule}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_delete_module:
+    path:    /administration/deleteModule/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:ModuleAdministration:deleteModule}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_modify_subject:
+    path:    /administration/modifySubject/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Subject:modifySubject}
+    requirements:
+        id: \d+
+
+# N'existe pas dans le controller
+teckmeb_administration_delete_subject:
+    path:    /administration/deleteSubject/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Subject:deleteSubject}
+    requirements:
+        id: \d+
+
+teckmeb_administration_modify_semestre:
+    path:    /administration/modifySemestre/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Semestre:modifySemestre}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_delete_semestre:
+    path:    /administration/deleteSemestre/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Semestre:deleteSemestre}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_modify_groupe:
+    path:    /administration/modifyGroupe/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Groupe:modifyGroupe}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_delete_groupe:
+    path:    /administration/deleteGroupe/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:Groupe:deleteGroupe}
+    requirements:
+        id: \d+
+   
+teckmeb_administration_delete_groupe_from_semestre:
+    path:    /administration/deleteGroupeFromSemestre/{idGroupe}/{idSemestre}
+    defaults: { _controller: TeckmebAdministrationBundle:Semestre:deleteGroupeFromSemestre}
+    requirements:
+        idGroupe: \d+
+        idSemestre: \d+
+        
+teckmeb_administration_suivi_teacher:
+    path:    /administration/suiviTeacher/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SuiviAdministration:suiviTeacher}
+    requirements:
+        id: \d+
+
+teckmeb_administration_modify_teacher:
+    path:    /administration/updateTeacher/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SuiviAdministration:modifyTeacher}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_suivi_student:
+    path:    /administration/suiviStudent/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SuiviAdministration:suiviStudent}
+    requirements:
+        id: \d+
+        
+teckmeb_administration_gestion:
+    path:     /administration/gestionExcel
+    defaults: { _controller: TeckmebAdministrationBundle:StudentExcel:gestion }
+    
+teckmeb_administration_traitement:
+    path:     /administration/traitement
+    defaults: { _controller: TeckmebAdministrationBundle:StudentExcel:traitement }
+    
+teckmeb_administration_password:
+    path:    /administration/password/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SuiviAdministration:passwordChange }
+    requirements:
+        id: \d+
+    
+        
+teckmeb_administration_generation_subject:
+    path:   /administration/subject/generate/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SubjectTeacher:Subjects }
+    requirements:
+        id: \d+
+
+teckmeb_administration_valide_subject:
+    path:    /administration/subject/validation/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SubjectTeacher:subjectValidate }
+    requirements:
+        id: \d+
+
+teckmeb_administration_ressource:
+    path:    /administration/subject/ressource/{id}
+    defaults: { _controller: TeckmebAdministrationBundle:SubjectTeacher:ressource }
+    requirements:
+        id: \d+
+
+teckmeb_administration_removeBD_affichage:
+    path:    /administration/removeBD/affichage
+    defaults: { _controller: TeckmebAdministrationBundle:RemoveBD:removeBDAffichage }
+
+teckmeb_administration_removeBD:
+    path:    /administration/removeBD/remove
+    defaults: { _controller: TeckmebAdministrationBundle:RemoveBD:removeBD }
+
+teckmeb_administration_getSQL:
+    path:    /administration/removeBD/getSQL
+    defaults : { _controller: TeckmebAdministrationBundle:SQLFile:SQLFile}

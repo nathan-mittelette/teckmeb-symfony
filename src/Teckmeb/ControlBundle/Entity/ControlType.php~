@@ -1,0 +1,41 @@
+<?php
+
+namespace Teckmeb\ControlBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ControlType
+ *
+ * @ORM\Table(name="control_type")
+ * @ORM\Entity(repositoryClass="Teckmeb\ControlBundle\Repository\ControlTypeRepository")
+ */
+class ControlType
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="controlTypeName", type="string", length=255)
+     */
+    private $controlTypeName;
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

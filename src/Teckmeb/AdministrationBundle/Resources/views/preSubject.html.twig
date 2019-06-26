@@ -1,0 +1,51 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Administration
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Administration/administration.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block style %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'assets/css/Administration/administration.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+    {% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Gestion du groupe {{groupe}}</h4>
+            <div class="row">
+                <div class="col s12 m10 l8 card">
+                    <form action="{{path('teckmeb_administration_generation_subject', {'id' : groupe.id})}}" method="POST">
+                        <div class="card-content">
+                            <span class="card-title">Trouvez votre numéro de ressource</span>
+                            <ol>
+                                <li>Accédez à l'emploi du temps du groupe sur l'application
+                                    <a href="http://adelb.univ-lyon1.fr">ADE WEB</a>
+                                </li>
+                                <li>Cliquez sur l'icone
+                                    <img src="{{ asset('/assets/images/TimeTable/agenda_export.png') }}" alt="Agenda export" width="32" height="24">
+                                        puis
+                                        <b>Générer URL</b>
+                                    </li>
+                                    <li>Copiez l'url générée et collez-la
+                                        <b>ci-dessous</b>
+                                    </li>
+                                </ol>
+                                <div class="input-field">
+                                    <label for="ressource">Entrez l'url du groupe</label><input id="ressource" name="ressource" type="text"/>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="waves-effect btn-flat" type="submit">Entrez l'url de l'emploi du temps du groupe</button>
+                                <a class="waves-effect btn-flat" href="{{path('teckmeb_administration_modify_groupe', {'id' : groupe.id})}}">Retour</a>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            {% endblock %}
+        

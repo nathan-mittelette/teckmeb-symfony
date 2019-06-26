@@ -1,0 +1,11 @@
+<div class="card hoverable">
+    <a class="black-text" href="{{path('teckmeb_absence_view')}}">
+        <div class="card-content">
+            <span class="card-title">Absences</span>
+            <p>{% if Justified is defined %}{{Justified}}{% else %}0{% endif %} demi-journée(s) d'absence justifiée(s)
+            </p>
+            <p>{% if NonJustified is defined %}{{NonJustified}}{% else %}0{% endif %} demi-journée(s) d'absence non
+                justifiée(s)</p>
+        </div>
+    </a>
+</div>

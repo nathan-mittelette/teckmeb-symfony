@@ -1,0 +1,59 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Suivi
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Suivi/home.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+    {% block body %}
+        {{ parent() }}
+        <main class="container">
+            <h4 class="header">Suivi des étudiants</h4>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input class="autocomplete1" id="autocomplete-input1" type="text">
+                        <label for="autocomplete-input1">Rechercher un étudiant ...</label>
+                    </div>
+                </div>
+                <div class="section" id="list-student">
+                    <div class="row">
+                        <div class="col s12">
+                            <table class="centered striped" id="tableStudent">
+                                <thead>
+                                    <th>Numéro étudiant</th>
+                                    <th>Prenom</th>
+                                    <th>Nom</th>
+                                </thead>
+                                <tbody>
+                                    {% for student in listStudent %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('teckmeb_suivi_student', {'numStudent' : student.numStudent})}}" style="color:black;">
+                                                    {{student.numStudent}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('teckmeb_suivi_student', {'numStudent' : student.numStudent})}}" style="color:black;">
+                                                    {{student.user.name|title}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('teckmeb_suivi_student', {'numStudent' : student.numStudent})}}" style="color:black;">
+                                                    {{student.user.surname|title}}</a>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="3">Pas d'étudiants</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        {% endblock %}
+    

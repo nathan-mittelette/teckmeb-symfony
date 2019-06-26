@@ -1,0 +1,15 @@
+{%- block checkbox_widget -%}<label><input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} onchange="doalert(this)"/><span>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</span></label>
+{%- endblock checkbox_widget -%}
+        
+{%- block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}>
+        <table id='tableStudent' class="striped"><tbody>
+    {%- for child in form %}
+            <tr>
+        <td>{{- form_widget(child) -}}</td>
+            </tr>
+    {% endfor -%}
+        </tbody></table>
+    </div>
+{%- endblock choice_widget_expanded -%}
+

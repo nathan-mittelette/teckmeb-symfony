@@ -1,0 +1,61 @@
+{% extends "TeckmebDashboardBundle::layout.html.twig" %}
+{% block title %}
+    Absences
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts filter='?jsqueeze' 'assets/js/Absence/view.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block body %}
+{{ include("TeckmebDashboardBundle::navbarExtend.html.twig") }}
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                {% for semestre, listSemestre in listAbsence %}
+                    <li class="tab col s3">
+                        <a {% if loop.last %} class="active" {% endif %} href="#{{listSemestre.nameTabs}}">
+                            {{semestre}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        {% for semestre, listSemestre in listAbsence %}
+            <div id="{{listSemestre.nameTabs}}" class="col s12">
+                <h4>Absence de
+                    {{semestre}}</h4>
+                <table class="centered striped">
+                    <thead>
+                        <th>Date</th>
+                        <th>Horaires</th>
+                        <th>Type</th>
+                        <th>Justification</th>
+                    </thead>
+                    <tbody>
+                        {% for absence in listSemestre.listAbsence2 %}
+                            <tr class="{% if absence.justified %}green{% else %}red{% endif %}-text">
+                                <td>
+                                    {{absence.beginDate|date('d/m/Y')}}</td>
+                                <td>
+                                    {{absence.beginDate|date('H:i')}}
+                                    -
+                                    {{absence.endDate|date('H:i')}}</td>
+                                <td>
+                                    {{absence.absenceType.absenceTypeName}}</td>
+                                <td>
+                                    {% if absence.justified %}Justifiée{% else %}Non justifiée{% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4">Pas d'absences ce semestre</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

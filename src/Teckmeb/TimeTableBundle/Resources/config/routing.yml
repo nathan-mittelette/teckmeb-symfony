@@ -1,0 +1,15 @@
+teckmeb_time_table_modify:
+    path:    /timetable/modify
+    defaults:
+        _controller: TeckmebTimeTableBundle:Timetable:modify
+
+teckmeb_time_table_homepage:
+    path:     /timetable/home
+    defaults:  
+        _controller: TeckmebTimeTableBundle:Timetable:home 
+        
+teckmeb_time_table_view:
+    path:     /timetable/{date}
+    defaults:  
+        _controller: TeckmebTimeTableBundle:Timetable:view 
+        date: "0000-00-00"
